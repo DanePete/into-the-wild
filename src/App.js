@@ -4,6 +4,7 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
 import { withAuthenticator } from '@aws-amplify/ui-react'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
@@ -45,6 +46,17 @@ function App() {
 
   return (
   <div style={styles.container}>
+  <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+  <TileLayer
+    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <Marker position={[51.505, -0.09]}>
+    <Popup>
+      A pretty CSS3 popup. <br /> Easily customizable.
+    </Popup>
+  </Marker>
+</MapContainer>
       <h2>Amplify Todos</h2>
       <input
         onChange={event => setInput('name', event.target.value)}
