@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 import awsExports from "./aws-exports";
@@ -79,6 +79,8 @@ function App() {
           </div>
         ))
       }
+
+       <AmplifySignOut />
     </div>
   );
 }
