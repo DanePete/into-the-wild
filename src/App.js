@@ -9,7 +9,10 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
-const initialState = { name: '', description: '' }
+let array = ['asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
+console.log('stringit',JSON.stringify(array));
+
+const initialState = { name: '', description: '', mapdata: JSON.stringify(array)}
 
 function App() {
 
@@ -28,6 +31,7 @@ function App() {
     try {
       const todoData = await API.graphql(graphqlOperation(listTodos))
       const todos = todoData.data.listTodos.items
+      console.log('todos', todos);
       setTodos(todos)
     } catch (err) { console.log('error fetching todos') }
   }
