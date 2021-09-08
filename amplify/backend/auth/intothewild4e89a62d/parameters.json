@@ -1,6 +1,6 @@
 {
     "identityPoolName": "intothewild4e89a62d_identitypool_4e89a62d",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "intoth4e89a62d",
     "userPoolName": "intothewild4e89a62d_userpool_4e89a62d",
     "autoVerifiedAttributes": [
