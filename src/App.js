@@ -6,6 +6,13 @@ import { listTodos } from './graphql/queries'
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
+import {
+  HashRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
+
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
@@ -82,17 +89,17 @@ function App() {
 
   return (
   <div style={styles.container}>
-  <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-  <TileLayer
-    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  />
-  <Marker position={[51.505, -0.09]}>
-    <Popup>
-      A pretty CSS3 popup. <br /> Easily customizable.
-    </Popup>
-  </Marker>
-</MapContainer>
+      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]}>
+          <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
       <h2>Amplify Todos</h2>
       <input
         onChange={event => setInput('name', event.target.value)}
@@ -107,6 +114,7 @@ function App() {
         placeholder="Description"
       />
       <button style={styles.button} onClick={addTodo}>Create Todo</button>
+      
       {
         todos.map((todo, index) => (
           <div key={todo.id ? todo.id : index} style={styles.todo}>
@@ -115,6 +123,7 @@ function App() {
           </div>
         ))
       }
+      <AmplifySignOut />
     </div>
   );
 }
