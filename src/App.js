@@ -21,56 +21,17 @@ import {
 import LandingPage from './components/LandingPage/LandingPage'
 import Hikes from './components/Hikes/Hikes'
 import Hike from './components/Hike/Hike'
+import AddHike from './components/AddHike/AddHike';
 
 
 Amplify.configure(awsExports);
 
-let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
-console.log('stringit',JSON.stringify(array));
-
-  let  data = [
-      {
-        id: 1,
-        name: "a",
-        age: 29,
-        qualification: "B.Com",
-        rating: 3,
-        gender: "male",
-        city: "Kerala"
-      },
-      {
-        id: 2,
-        name: "b",
-        age: 35,
-        qualification: "B.Sc",
-        rating: 5,
-        gender: "female",
-        city: "Mumbai"
-      },
-      {
-        id: 3,
-        name: "c",
-        age: 42,
-        qualification: "B.E",
-        rating: 3,
-        gender: "female",
-        city: "Bangalore"
-      }
-    ]
-
-    console.log('string it',data);
-
-const initialState = { name: '', description: '', mapdata: JSON.stringify(array)}
-
 function App() {
-  const dispatch = useDispatch();
-  const [formState, setFormState] = useState(initialState)
   const [todos, setTodos] = useState([])
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
 
   useEffect(() => {
-    fetchTodos()
     fetuserLocation()
   }, [])
 
@@ -80,35 +41,12 @@ function App() {
    * fetches user location via the navigator module
    * and sets user location to local state
    */
-   const fetuserLocation = () => {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      setLat(position.coords.latitude);
-      setLng(position.coords.longitude);
-    });
-  }
-
-
-
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
-  }
-
-  async function fetchTodos() {
+   async function fetuserLocation() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      console.log('todos', todos);
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
-  }
-
-  async function addTodo() {
-    try {
-      if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      navigator.geolocation.getCurrentPosition(function(position) {
+        setLat(position.coords.latitude);
+        setLng(position.coords.longitude);
+      });
     } catch (err) {
       console.log('error creating todo:', err)
     }
@@ -146,6 +84,14 @@ function App() {
             path="/hikes"
           >
             <Hikes/>
+          </Route>
+
+          <Route
+            // shows AboutPage at all times (logged in or not)
+            exact
+            path="/add"
+          >
+            <AddHike/>
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
