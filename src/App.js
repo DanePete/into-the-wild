@@ -22,6 +22,7 @@ import {
  */
 
 import Hike from  './components/Hike/Hike'
+import Map from './components/Map/Map'
 
 
 Amplify.configure(awsExports);
@@ -190,19 +191,12 @@ function App() {
             }
           </Route> */}
 
-          {/* <Route
+          <Route
             exact
             path="/home"
           >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the Landing page
-              <LandingPage />
-            }
-          </Route> */}
+            <Map /> 
+          </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
@@ -295,4 +289,4 @@ const styles = {
   button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
 }
 
-export default withAuthenticator(App)
+export default App

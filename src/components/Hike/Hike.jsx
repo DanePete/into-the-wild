@@ -1,6 +1,7 @@
 import React from 'react';
 import Map from '../Map/Map';
 import './Hike.css';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 
 /**
  * Hike Component
@@ -12,11 +13,14 @@ function Hike(latLng) {
   return (
     <div className="hike-map-container">
       <h1>Hike</h1>
+      <AmplifySignOut />
       <Map
         latLng = {latLng.latLng}
       />
+   
     </div>
   );
 }
 
-export default Hike;
+export default withAuthenticator(Hike)
+
