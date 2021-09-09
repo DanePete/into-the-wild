@@ -4,7 +4,9 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 function Map(latLng) {
   console.log('latng map', latLng.latLng);
 
-  
+  /**
+   * Add Marker
+   */
   const addMarker = (e) => {
     const {markers} = this.state
     console.log('lat lng drop', e.latLng);

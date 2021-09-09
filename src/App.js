@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import awsExports from "./aws-exports";
 import Nav from './components/Nav/Nav';
-
+import './App.css';
 
 import {
   HashRouter as Router,
@@ -22,7 +22,7 @@ import {
  */
 
 import Hike from  './components/Hike/Hike'
-import Map from './components/Map/Map'
+import LandingPage from './components/LandingPage/LandingPage'
 
 
 Amplify.configure(awsExports);
@@ -195,7 +195,7 @@ function App() {
             exact
             path="/home"
           >
-            <Map /> 
+            <LandingPage /> 
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
