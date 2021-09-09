@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import { useDispatch, useSelector } from 'react-redux';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useDispatch } from 'react-redux';
 import awsExports from "./aws-exports";
 import Nav from './components/Nav/Nav';
 import './App.css';
@@ -20,9 +18,9 @@ import {
 /**
  * Components
  */
-
-import Hike from  './components/Hike/Hike'
 import LandingPage from './components/LandingPage/LandingPage'
+import Hikes from './components/Hikes/Hikes'
+import Hike from './components/Hike/Hike'
 
 
 Amplify.configure(awsExports);
@@ -95,7 +93,7 @@ function App() {
     setFormState({ ...formState, [key]: value })
   }
 
-    async function fetchTodos() {
+  async function fetchTodos() {
     try {
       const todoData = await API.graphql(graphqlOperation(listTodos))
       const todos = todoData.data.listTodos.items
@@ -141,6 +139,13 @@ function App() {
             <Hike
               latLng = {[lat, lng]}
             />
+          </Route>
+          <Route
+            // shows AboutPage at all times (logged in or not)
+            exact
+            path="/hikes"
+          >
+            <Hikes/>
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
