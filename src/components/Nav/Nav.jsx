@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
 
 function Nav() {
+  const history = useHistory();
   // const user = useSelector((store) => store.user);
   const [user, setUser] = useState({}) 
   async function checkUser() {
@@ -21,6 +22,14 @@ function Nav() {
   }, [])
 
   console.log('user id', user);
+
+  async function handleLogout() {
+    await Auth.signOut();
+    
+    // userHasAuthenticated(false);
+  
+    history.push("/login");
+  }
 
   return (
     <div className="nav">
@@ -57,7 +66,24 @@ function Nav() {
           About
         </Link>   
       </div>
-      <AmplifySignOut />
+      {
+        user.username &&
+      (
+        <>
+        {console.log('the user is', user)}
+          <AmplifySignOut />
+          <button
+          type="button"
+          className="btn btn-primary btn_asLink"
+          onClick={() => {
+            handleLogout()
+          }}
+        >
+          LOGOUT
+        </button>
+        </>
+      )}
+
     </div>
   );
 }
