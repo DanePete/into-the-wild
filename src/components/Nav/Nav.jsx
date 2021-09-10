@@ -14,7 +14,10 @@ function Nav() {
       const data = await Auth.currentUserPoolUser()
       const userInfo = { username: data.username, ...data.attributes, }
       setUser(userInfo)
-    } catch (err) { console.log('error: ', err) }
+    } catch (err) { 
+      console.log('error: ', err) 
+      history.push("/login");
+    }
   }
 
   useEffect(() => {

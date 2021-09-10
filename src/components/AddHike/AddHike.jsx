@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Map from '../Map/Map';
+import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom';
 import './AddHike.css'
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import awsExports from "../../aws-exports";
 import { useSelector } from 'react-redux';
 import { createTodo } from '../../graphql/mutations'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 Amplify.configure(awsExports);
 
 let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
@@ -51,6 +50,7 @@ const initialState = { name: '', description: '', mapdata: JSON.stringify(array)
  * Submits to AWS dynamoDB using graphQL queries
  */
 function AddHike() {
+  const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
   const [todos, setTodos] = useState([])
@@ -71,6 +71,7 @@ function AddHike() {
       setTodos([...todos, todo])
       setFormState(initialState)
       await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      history.push("/hikes");
     } catch (err) {
       console.log('error creating todo:', err)
     }
@@ -86,22 +87,8 @@ function AddHike() {
   }
 
   return (
-    
-
-    
     <div style={styles.container}>
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
-      <h2>Amplify Todos</h2>
+      <h2>Add Hike</h2>
       <input
         onChange={event => setInput('name', event.target.value)}
         style={styles.input}
@@ -115,8 +102,6 @@ function AddHike() {
         placeholder="Description"
       />
       <button style={styles.button} onClick={addTodo}>Create Todo</button>
-      
-      <AmplifySignOut />
     </div>
   );
 }

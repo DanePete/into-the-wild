@@ -3,7 +3,7 @@ import Map from '../Map/Map';
 import './Hikes.css';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createTodo } from '../../graphql/mutations'
 import { listTodos } from '../../graphql/queries'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
@@ -26,24 +26,34 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify'
  * App.js retrieves user location and passes the lat/long via props to the map component
  * Move to local state -- TODO
  */
-function Hikes(latLng) {
+function Hikes() {
+  const dispatch = useDispatch();
+  const hikes = useSelector(store => store.hikesListReducer);
+  console.log('hikes from store', hikes);
 
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_HIKES_LIST'
+    });
+  }, []);
+
+  console.log('hikes from store2', hikes);
 /**
  * Fetch Hikes
  * fetches hikes from AWS DynamoDB utalizing graphQL mutations
  */
- async function fetchTodos() {
-  try {
-    const todoData = await API.graphql(graphqlOperation(listTodos))
-    const todos = todoData.data.listTodos.items
-    console.log('todos', todos);
-    setTodos(todos)
-  } catch (err) { console.log('error fetching todos') }
-}
+//  async function fetchTodos() {
+//   try {
+//     const todoData = await API.graphql(graphqlOperation(listTodos))
+//     const todos = todoData.data.listTodos.items
+//     console.log('todos', todos);
+//     setTodos(todos)
+//   } catch (err) { console.log('error fetching todos') }
+// }
 
-useEffect(() => {
-  fetchTodos()
-}, [])
+// useEffect(() => {
+//   fetchTodos()
+// }, [])
 
 
 
@@ -67,19 +77,19 @@ useEffect(() => {
 
       <AmplifySignOut />
 
-      <Map
+      {/* <Map
         latLng = {latLng.latLng}
-      />
+      /> */}
 
       {/* TODO MAP */}
-      {
+      {/* {
         todos.map((todo, index) => (
         <div key={todo.id ? todo.id : index} style={styles.todo}>
         <p style={styles.todoName}>{todo.name}</p>
         <p style={styles.todoDescription}>{todo.description}</p>
         </div>
         ))
-      }
+      } */}
       
     </div>
   );
