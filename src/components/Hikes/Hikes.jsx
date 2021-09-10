@@ -8,7 +8,6 @@ import { createTodo } from '../../graphql/mutations'
 import { listTodos } from '../../graphql/queries'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 
-
 /**
  * Hike Component
  * App.js retrieves user location and passes the lat/long via props to the map component
@@ -41,12 +40,6 @@ function Hikes() {
   return (
     <div className="hike-map-container">
       <h1>All Hikes</h1>
-
-      <AmplifySignOut />
-
-      {/* <Map
-        latLng = {latLng.latLng}
-      /> */}
 
       {/* TODO MAP */}
       {

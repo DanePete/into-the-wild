@@ -1,7 +1,5 @@
-import axios from "axios";
 import {call, put, takeLatest } from "redux-saga/effects";
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from '../../graphql/mutations'
+import { API, graphqlOperation } from 'aws-amplify'
 import { listTodos } from '../../graphql/queries'
 
 function* fetchHikesList() {
