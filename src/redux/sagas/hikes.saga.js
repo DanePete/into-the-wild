@@ -14,7 +14,7 @@ function* fetchHikesList() {
     console.log('saga todos', result);
     yield put({
       type: 'SET_HIKE_LIST',
-      payload: result
+      payload: result.data.listTodos.items
     })
   } catch (err) { console.log('error fetching todos', err) }
 }

@@ -8,18 +8,6 @@ import { createTodo } from '../../graphql/mutations'
 import { listTodos } from '../../graphql/queries'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 
-// async function addTodo() {
-//   try {
-//     if (!formState.name || !formState.description) return
-//     const todo = { ...formState }
-//     setTodos([...todos, todo])
-//     setFormState(initialState)
-//     await API.graphql(graphqlOperation(createTodo, {input: todo}))
-//   } catch (err) {
-//     console.log('error creating todo:', err)
-//   }
-// }
-
 
 /**
  * Hike Component
@@ -29,33 +17,12 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify'
 function Hikes() {
   const dispatch = useDispatch();
   const hikes = useSelector(store => store.hikesListReducer);
-  console.log('hikes from store', hikes);
-
+  console.log('hikes', hikes);
   useEffect(() => {
     dispatch({
       type: 'FETCH_HIKES_LIST'
     });
   }, []);
-
-  console.log('hikes from store2', hikes);
-/**
- * Fetch Hikes
- * fetches hikes from AWS DynamoDB utalizing graphQL mutations
- */
-//  async function fetchTodos() {
-//   try {
-//     const todoData = await API.graphql(graphqlOperation(listTodos))
-//     const todos = todoData.data.listTodos.items
-//     console.log('todos', todos);
-//     setTodos(todos)
-//   } catch (err) { console.log('error fetching todos') }
-// }
-
-// useEffect(() => {
-//   fetchTodos()
-// }, [])
-
-
 
   const user = useSelector((store) => store.user);
   const [todos, setTodos] = useState([])
@@ -82,14 +49,14 @@ function Hikes() {
       /> */}
 
       {/* TODO MAP */}
-      {/* {
-        todos.map((todo, index) => (
+      {
+        hikes.map((todo, index) => (
         <div key={todo.id ? todo.id : index} style={styles.todo}>
         <p style={styles.todoName}>{todo.name}</p>
         <p style={styles.todoDescription}>{todo.description}</p>
         </div>
         ))
-      } */}
+      }
       
     </div>
   );
