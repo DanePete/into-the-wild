@@ -1,5 +1,11 @@
 {
   "AppSyncApiName": "intothewild",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authintothewild4e89a62d",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

@@ -60,6 +60,7 @@ export const createHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -77,6 +78,7 @@ export const updateHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -94,6 +96,7 @@ export const deleteHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;

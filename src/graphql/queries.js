@@ -43,6 +43,7 @@ export const getHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -62,6 +63,7 @@ export const listHikes = /* GraphQL */ `
         mapdata
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

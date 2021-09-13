@@ -38,8 +38,8 @@ export const onDeleteTodo = /* GraphQL */ `
   }
 `;
 export const onCreateHikes = /* GraphQL */ `
-  subscription OnCreateHikes {
-    onCreateHikes {
+  subscription OnCreateHikes($owner: String) {
+    onCreateHikes(owner: $owner) {
       id
       name
       description
@@ -48,12 +48,13 @@ export const onCreateHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateHikes = /* GraphQL */ `
-  subscription OnUpdateHikes {
-    onUpdateHikes {
+  subscription OnUpdateHikes($owner: String) {
+    onUpdateHikes(owner: $owner) {
       id
       name
       description
@@ -62,12 +63,13 @@ export const onUpdateHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteHikes = /* GraphQL */ `
-  subscription OnDeleteHikes {
-    onDeleteHikes {
+  subscription OnDeleteHikes($owner: String) {
+    onDeleteHikes(owner: $owner) {
       id
       name
       description
@@ -76,6 +78,7 @@ export const onDeleteHikes = /* GraphQL */ `
       mapdata
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -5,7 +5,14 @@ type Todo @model {
   mapdata: AWSJSON
 }
 
-type Hikes @model {
+type Hikes @model 
+@auth(
+    rules: [
+      { allow: public, operations: [read]},
+      { allow: owner }
+    ]
+  ) 
+{
   id: ID!
   name: String!
   description: String

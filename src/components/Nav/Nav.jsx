@@ -3,6 +3,10 @@ import { Link, useHistory } from 'react-router-dom';
 import './Nav.css';
 import { Auth } from 'aws-amplify';
 import logo from '../Nav/hike.jpg'
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import 'react-pro-sidebar/dist/css/styles.css';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faGem } from '@fortawesome/free-solid-svg-icons';
 
 function Nav() {
   const history = useHistory();
@@ -29,7 +33,19 @@ function Nav() {
   }
 
   return (
+
+    
     <div className="nav">
+
+      {/* <ProSidebar>
+        <Menu iconShape="square">
+          <MenuItem >Dashboard</MenuItem>
+          <SubMenu title="Components">
+            <MenuItem>Component 1</MenuItem>
+            <MenuItem>Component 2</MenuItem>
+          </SubMenu>
+        </Menu>
+      </ProSidebar> */}
       <img className="logo" src={logo}></img>
        {/* Home Nav Link */}
       <Link to="/home">
