@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import './Nav.css';
 import { Auth } from 'aws-amplify';
+import logo from '../Nav/hike.jpg'
 
 function Nav() {
   const history = useHistory();
@@ -29,7 +30,7 @@ function Nav() {
 
   return (
     <div className="nav">
-
+      <img className="logo" src={logo}></img>
        {/* Home Nav Link */}
       <Link to="/home">
         <h2 className="nav-title"></h2>

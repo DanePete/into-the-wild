@@ -6,6 +6,7 @@
 
   margin: 0 0 30px;
   overflow: hidden;
+  background: #2b3a3d;
 }
 
 .nav a {
@@ -38,4 +39,11 @@
 .navLink:hover {
   text-decoration: underline;
   color: white;
+}
+
+.logo {
+  height: 68px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
