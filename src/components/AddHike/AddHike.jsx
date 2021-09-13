@@ -6,6 +6,8 @@ import awsExports from "../../aws-exports";
 import { useSelector } from 'react-redux';
 import { createTodo } from '../../graphql/mutations'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+
 Amplify.configure(awsExports);
 
 let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
@@ -47,17 +49,31 @@ const initialState = { name: '', description: '', mapdata: JSON.stringify(array)
  * Ability for user to add a hike. 
  * Submits to AWS dynamoDB using graphQL queries
  */
-function AddHike() {
+function AddHike(latLng) {
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
   const [todos, setTodos] = useState([])
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
+  console.log('our default latLng', latLng);
+  const [markers, setMarkers] = useState([[51.505, -0.09]]);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
+
+  const addMarker = (e) => {
+    // const {markers} = this.state
+    console.log('clicked!');
+    console.log('lat lng drop', e.latLng);
+    // markers.push(e.latlng)
+    setMarkers(...markers, e.latlng);
+    // this.setState({markers})
+  }
+
+  console.log('markers array', markers);
+
 
   /**
    * Add HIKE
@@ -100,6 +116,26 @@ function AddHike() {
         placeholder="Description"
       />
       <button style={styles.button} onClick={addTodo}>Create Todo</button>
+
+      <MapContainer onClick={addMarker} center={latLng.latLng} zoom={16}>
+      <TileLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <TileLayer
+        url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+      />
+      <TileLayer
+        url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+      />
+      <Marker position={latLng.latLng}>
+        <Popup>
+          FOUND YOU! 
+        </Popup>
+      </Marker>
+    </MapContainer>
+
+
     </div>
   );
 }

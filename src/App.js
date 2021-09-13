@@ -91,7 +91,9 @@ function App() {
             exact
             path="/add"
           >
-            <AddHike/>
+            <AddHike 
+              latLng = {[lat, lng]}
+            />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
