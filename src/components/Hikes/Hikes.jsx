@@ -50,15 +50,16 @@ function Hikes() {
         </button>
 
       {/* TODO MAP */}
-      {
-        hikes.map((todo, index) => (
-        <div key={todo.id ? todo.id : index} className="card hike-card">
-          <p>{todo.name}</p>
-          <p>{todo.description}</p>
-        </div>
-        ))
-      }
-      
+      <div className="d-flex">
+        {
+          hikes.map((todo, index) => (
+          <div key={todo.id ? todo.id : index} className="card hike-card">
+            <p>{todo.name}</p>
+            <p>{todo.description}</p>
+          </div>
+          ))
+        }
+      </div>
     </div>
   );
 }

@@ -36,5 +36,6 @@
 }
 
 .navLink:hover {
-  background-color: #008183;
+  text-decoration: underline;
+  color: white;
 }

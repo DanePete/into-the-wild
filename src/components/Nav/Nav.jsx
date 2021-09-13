@@ -61,14 +61,15 @@ function Nav() {
 
         <Link className="navLink" to="/about">
           About
-        </Link>   
+        </Link>    
       </div>
       {
         user.username &&
       (
         <>
-        {console.log('the user is', user)}
-          {/* <AmplifySignOut /> */}
+        <Link className="navLink" to="/profile">
+          Profile
+        </Link>
           <button
           type="button"
           className="btn btn-warning btn_asLink"
