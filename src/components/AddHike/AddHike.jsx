@@ -5,6 +5,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import awsExports from "../../aws-exports";
 import { useSelector } from 'react-redux';
 import { createTodo } from '../../graphql/mutations'
+import { createHikes } from '../../graphql/mutations';
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
@@ -84,7 +85,7 @@ function AddHike(latLng) {
       const todo = { ...formState }
       setTodos([...todos, todo])
       setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      await API.graphql(graphqlOperation(createHikes, {input: todo}))
       history.push("/hikes");
     } catch (err) {
       console.log('error creating todo:', err)

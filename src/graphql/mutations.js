@@ -46,3 +46,48 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const createHikes = /* GraphQL */ `
+  mutation CreateHikes(
+    $input: CreateHikesInput!
+    $condition: ModelHikesConditionInput
+  ) {
+    createHikes(input: $input, condition: $condition) {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateHikes = /* GraphQL */ `
+  mutation UpdateHikes(
+    $input: UpdateHikesInput!
+    $condition: ModelHikesConditionInput
+  ) {
+    updateHikes(input: $input, condition: $condition) {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteHikes = /* GraphQL */ `
+  mutation DeleteHikes(
+    $input: DeleteHikesInput!
+    $condition: ModelHikesConditionInput
+  ) {
+    deleteHikes(input: $input, condition: $condition) {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;

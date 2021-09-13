@@ -4,3 +4,10 @@ type Todo @model {
   description: String
   mapdata: AWSJSON
 }
+
+type Hikes @model {
+  id: ID!
+  name: String!
+  description: String
+  mapdata: AWSJSON
+}

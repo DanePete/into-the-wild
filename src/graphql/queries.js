@@ -32,3 +32,34 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
+export const getHikes = /* GraphQL */ `
+  query GetHikes($id: ID!) {
+    getHikes(id: $id) {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listHikes = /* GraphQL */ `
+  query ListHikes(
+    $filter: ModelHikesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listHikes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        description
+        mapdata
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

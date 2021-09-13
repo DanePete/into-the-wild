@@ -37,3 +37,39 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateHikes = /* GraphQL */ `
+  subscription OnCreateHikes {
+    onCreateHikes {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateHikes = /* GraphQL */ `
+  subscription OnUpdateHikes {
+    onUpdateHikes {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteHikes = /* GraphQL */ `
+  subscription OnDeleteHikes {
+    onDeleteHikes {
+      id
+      name
+      description
+      mapdata
+      createdAt
+      updatedAt
+    }
+  }
+`;

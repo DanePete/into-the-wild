@@ -1,18 +1,14 @@
 import {call, put, takeLatest } from "redux-saga/effects";
 import { API, graphqlOperation } from 'aws-amplify'
-import { listTodos } from '../../graphql/queries'
+import { listHikes } from '../../graphql/queries'
 
 function* fetchHikesList() {
-  console.log('listTODO', listTodos);
+  console.log('listTODO', listHikes);
   try {
-    const result = yield call([API, 'graphql'], graphqlOperation(listTodos, { limit: 100 }))
-
-    // const todoData =  API.graphql(graphqlOperation(listTodos))
-    // const todos = todoData.data.listTodos.items
-    // console.log('saga todos', result);
+    const result = yield call([API, 'graphql'], graphqlOperation(listHikes, { limit: 100 }))
     yield put({
       type: 'SET_HIKE_LIST',
-      payload: result.data.listTodos.items
+      payload: result.data.listHikes.items
     })
   } catch (err) { console.log('error fetching todos', err) }
 }
