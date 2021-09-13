@@ -4,6 +4,9 @@ import './AddHike.css'
 import {
   MapContainer,
   TileLayer,
+  Popup,
+  useMapEvents,
+  Marker,
   MapConsumer
 } from "react-leaflet";
 import { useSelector } from 'react-redux';
@@ -12,45 +15,46 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
-import { AmplifyS3ImagePicker } from '@aws-amplify/ui-react';
-
-// let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
-// console.log('stringit',JSON.stringify(array));
-const initialState = { name: '', description: '', mapdata: '', image: ''}
+const initialState = { name: '', description: '', mapdata: [], image: ''}
 
 export default function AddHike(latLng) {
-
-  console.log('latLng', latLng);
-
   const [file, setFile] = useState();
   const [uploaded, setUploaded] = useState(false);
-
+  const [items, setItems] = useState([]);
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
   const [hikes, setHikes] = useState([])
-  const [lat, setLat] = useState('');
-  const [lng, setLng] = useState('');
-  console.log('our default latLng', latLng);
-  const [markers, setMarkers] = useState([[51.505, -0.09]]);
 
   function setInput(key, value) {
-    console.log('key', key);
-    console.log('value', value);
     setFormState({ ...formState, [key]: value })
   }
 
-  // const addMarker = (e) => {
-  //   // const {markers} = this.state
-  //   console.log('clicked!');
-  //   console.log('lat lng drop', e.latLng);
-  //   // markers.push(e.latlng)
-  //   setMarkers(...markers, e.latlng);
-  //   // this.setState({markers})
-  // }
 
-  // console.log('markers array', markers);
+  function LocationMarker() {
+    let tempArray = [];
+    const [position, setPosition] = useState(null)
+    const map = useMapEvents({
+      click(e) {
+        console.log('e.latng', e.latlng);
+        tempArray.push(e.latlng);
+        console.log('temp', tempArray);
+        const { lat, lng } = e.latlng;
+        L.marker([lat, lng], { icon }).addTo(map);
+        setItems([...items, {lat,lng}])
+        setInput('mapdata', [...formState.mapdata, {lat, lng}]);
+      }
+    })
+  
+    return position === null ? null : (
+      <Marker position={position}>
+        <Popup>You are here</Popup>
+      </Marker>
+    )
+  }
 
+  console.log('formstate', formState.mapdata);
+  
   /**
    * Add HIKE
    */
@@ -61,14 +65,12 @@ export default function AddHike(latLng) {
       setHikes([...hikes, todo])
       setFormState(initialState)
       await API.graphql(graphqlOperation(createHikes, {input: todo}))
-      console.log('file is ', file);
       const storageResult = await Storage.put(file.name, file, {
         level: 'public',
         type: 'image/png'
       })
       // Insert predictions code here later
       setUploaded(true)
-      console.log('storage results',storageResult);
       history.push("/hikes");
     } catch (err) {
       console.log('error creating todo:', err)
@@ -88,18 +90,7 @@ export default function AddHike(latLng) {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <MapConsumer>
-        {(map) => {
-          console.log("map center:", map.getCenter());
-          map.on("click", function (e) {
-            const { lat, lng } = e.latlng;
-            console.log('lat, lng', lat, lng);
-            L.marker([lat, lng], { icon }).addTo(map);
-            setInput('mapdata', JSON.stringify(e.latlng))
-          });
-          return null;
-        }}
-      </MapConsumer>
+      <LocationMarker />
     </MapContainer>
 
     <input
