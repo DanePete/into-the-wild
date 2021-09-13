@@ -41,8 +41,6 @@ console.log('stringit',JSON.stringify(array));
       }
     ]
 
-    console.log('string it',data);
-
 const initialState = { name: '', description: '', mapdata: JSON.stringify(array)}
 /**
  * Add Hike Component

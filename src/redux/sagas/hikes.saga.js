@@ -9,7 +9,7 @@ function* fetchHikesList() {
 
     // const todoData =  API.graphql(graphqlOperation(listTodos))
     // const todos = todoData.data.listTodos.items
-    console.log('saga todos', result);
+    // console.log('saga todos', result);
     yield put({
       type: 'SET_HIKE_LIST',
       payload: result.data.listTodos.items
