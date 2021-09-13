@@ -24,6 +24,7 @@ import Hike from './components/Hike/Hike'
 import AddHike from './components/AddHike/AddHike'
 import AboutPage from './components/AboutPage/AboutPage'
 import Admin from './components/Admin/Admin'
+import HikesMap from './components/HikesMap/HikesMap'
 
 
 Amplify.configure(awsExports);
@@ -76,6 +77,14 @@ function App() {
               path="/hikes"
             >
               <Hikes/>
+            </Route>
+
+            <Route
+              // shows AboutPage at all times (logged in or not)
+              exact
+              path="/hikes-map"
+            >
+              <HikesMap/>
             </Route>
 
             <Route

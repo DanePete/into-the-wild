@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './Admin.css';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { AmplifyS3Image } from '@aws-amplify/ui-react';
 
 /**
  * Hike Component
@@ -15,7 +14,6 @@ function Admin() {
   const history = useHistory();
   const dispatch = useDispatch();
   const hikes = useSelector(store => store.hikesListReducer);
-  console.log('hikes', hikes);
   useEffect(() => {
     dispatch({
       type: 'FETCH_HIKES_LIST'
@@ -23,7 +21,7 @@ function Admin() {
   }, []);
 
   const user = useSelector((store) => store.user);
-  const [todos, setTodos] = useState([])
+  console.log('user', user);
   async function checkAuthState() {
     try {
       await Auth.currentAuthenticatedUser()
