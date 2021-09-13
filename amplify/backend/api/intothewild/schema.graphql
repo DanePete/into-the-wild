@@ -9,5 +9,6 @@ type Hikes @model {
   id: ID!
   name: String!
   description: String
+  image: String
   mapdata: AWSJSON
 }

@@ -4,22 +4,22 @@ import './AddHike.css'
 import {
   MapContainer,
   TileLayer,
-  useMapEvents,
   MapConsumer
 } from "react-leaflet";
 import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "../../constants";
-import { createTodo } from '../../graphql/mutations'
 import { createHikes } from '../../graphql/mutations';
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import { API, graphqlOperation, Storage } from 'aws-amplify'
 
-let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
-console.log('stringit',JSON.stringify(array));
-const initialState = { name: '', description: '', mapdata: JSON.stringify(array)}
+// let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
+// console.log('stringit',JSON.stringify(array));
+const initialState = { name: '', description: '', mapdata: ''}
 
 export default function AddHike(latLng) {
+  const [file, setFile] = useState();
+  const [uploaded, setUploaded] = useState(false);
 
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
@@ -80,6 +80,7 @@ export default function AddHike(latLng) {
             const { lat, lng } = e.latlng;
             console.log('lat, lng', lat, lng);
             L.marker([lat, lng], { icon }).addTo(map);
+            setInput('mapdata', JSON.stringify(e.latlng))
           });
           return null;
         }}
@@ -87,18 +88,25 @@ export default function AddHike(latLng) {
     </MapContainer>
 
     <input
-        onChange={event => setInput('name', event.target.value)}
-        className="form-control"
-        value={formState.name}
-        placeholder="Name"
-      />
-      <input
-        onChange={event => setInput('description', event.target.value)}
-        className="form-control"
-        value={formState.description}
-        placeholder="Description"
-      />
-      <button className="btn btn-primary" onClick={addTodo}>Create Hike</button>
+      onChange={event => setInput('name', event.target.value)}
+      className="form-control"
+      value={formState.name}
+      placeholder="Name"
+    />
+    <textarea
+      onChange={event => setInput('description', event.target.value)}
+      className="form-control"
+      value={formState.description}
+      placeholder="Description"
+    />
+
+    <input
+      type="file"
+      className="form-control"
+      onChange={event => setInput('image', event.target.files[0])}
+    />
+
+    <button className="btn btn-primary" onClick={addTodo}>Create Hike</button>
     </>
   );
 }

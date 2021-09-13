@@ -38,6 +38,7 @@ export const getHikes = /* GraphQL */ `
       id
       name
       description
+      image
       mapdata
       createdAt
       updatedAt
@@ -55,6 +56,7 @@ export const listHikes = /* GraphQL */ `
         id
         name
         description
+        image
         mapdata
         createdAt
         updatedAt

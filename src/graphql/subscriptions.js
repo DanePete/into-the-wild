@@ -43,6 +43,7 @@ export const onCreateHikes = /* GraphQL */ `
       id
       name
       description
+      image
       mapdata
       createdAt
       updatedAt
@@ -55,6 +56,7 @@ export const onUpdateHikes = /* GraphQL */ `
       id
       name
       description
+      image
       mapdata
       createdAt
       updatedAt
@@ -67,6 +69,7 @@ export const onDeleteHikes = /* GraphQL */ `
       id
       name
       description
+      image
       mapdata
       createdAt
       updatedAt
