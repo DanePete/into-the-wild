@@ -70,11 +70,15 @@ function Admin() {
             <td></td>
             <td></td>
             <td>
-              <button onClick={() => deleteHike(hike.id)}>
+              <button className="btn btn-primary" onClick={() => deleteHike(hike.id)}>
+                EDIT
+              </button>
+            </td>
+            <td>
+            <button className="btn btn-danger" onClick={() => deleteHike(hike.id)}>
                 DELETE
               </button>
             </td>
-            <td></td>
           </tr>
           ))
         }
