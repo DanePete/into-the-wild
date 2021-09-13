@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import './AddHike.css'
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
-import awsExports from "../../aws-exports";
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvents,
+  MapConsumer
+} from "react-leaflet";
 import { useSelector } from 'react-redux';
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import icon from "../../constants";
 import { createTodo } from '../../graphql/mutations'
 import { createHikes } from '../../graphql/mutations';
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-
-Amplify.configure(awsExports);
 
 let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
 console.log('stringit',JSON.stringify(array));
@@ -45,12 +49,9 @@ console.log('stringit',JSON.stringify(array));
     ]
 
 const initialState = { name: '', description: '', mapdata: JSON.stringify(array)}
-/**
- * Add Hike Component
- * Ability for user to add a hike. 
- * Submits to AWS dynamoDB using graphQL queries
- */
-function AddHike(latLng) {
+
+export default function AddHike(latLng) {
+
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
@@ -64,22 +65,21 @@ function AddHike(latLng) {
     setFormState({ ...formState, [key]: value })
   }
 
-  const addMarker = (e) => {
-    // const {markers} = this.state
-    console.log('clicked!');
-    console.log('lat lng drop', e.latLng);
-    // markers.push(e.latlng)
-    setMarkers(...markers, e.latlng);
-    // this.setState({markers})
-  }
+  // const addMarker = (e) => {
+  //   // const {markers} = this.state
+  //   console.log('clicked!');
+  //   console.log('lat lng drop', e.latLng);
+  //   // markers.push(e.latlng)
+  //   setMarkers(...markers, e.latlng);
+  //   // this.setState({markers})
+  // }
 
-  console.log('markers array', markers);
-
+  // console.log('markers array', markers);
 
   /**
    * Add HIKE
    */
-  async function addTodo() {
+   async function addTodo() {
     try {
       if (!formState.name || !formState.description) return
       const todo = { ...formState }
@@ -92,38 +92,32 @@ function AddHike(latLng) {
     }
   }
 
-  const styles = {
-    container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
-    todo: {  marginBottom: 15 },
-    input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-    todoName: { fontSize: 20, fontWeight: 'bold' },
-    todoDescription: { marginBottom: 0 },
-    button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-  }
 
   return (
-    <div style={styles.container}>
-      <h2>Add Hike</h2>
-
-      <MapContainer onClick={addMarker} center={latLng.latLng} zoom={16}>
+    <>
+    <MapContainer
+      center={[50.5, 30.5]}
+      zoom={13}
+      style={{ height: "100vh" }}
+    >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <TileLayer
-        url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
-      />
-      <TileLayer
-        url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
-      />
-      <Marker position={latLng.latLng}>
-        <Popup>
-          FOUND YOU! 
-        </Popup>
-      </Marker>
+      <MapConsumer>
+        {(map) => {
+          console.log("map center:", map.getCenter());
+          map.on("click", function (e) {
+            const { lat, lng } = e.latlng;
+            console.log('lat, lng', lat, lng);
+            L.marker([lat, lng], { icon }).addTo(map);
+          });
+          return null;
+        }}
+      </MapConsumer>
     </MapContainer>
 
-      <input
+    <input
         onChange={event => setInput('name', event.target.value)}
         className="form-control"
         value={formState.name}
@@ -136,9 +130,6 @@ function AddHike(latLng) {
         placeholder="Description"
       />
       <button className="btn btn-primary" onClick={addTodo}>Create Hike</button>
-    </div>
+    </>
   );
 }
-
-export default withAuthenticator(AddHike)
-
