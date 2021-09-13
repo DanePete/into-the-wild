@@ -65,8 +65,8 @@ export default function AddHike(latLng) {
   return (
     <>
     <MapContainer
-      center={[50.5, 30.5]}
-      zoom={13}
+      center={[46.392410, -94.636230]}
+      zoom={6}
       style={{ height: "100vh" }}
     >
       <TileLayer
