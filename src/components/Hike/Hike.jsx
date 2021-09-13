@@ -27,10 +27,9 @@ function Hike(latLng) {
   return (
     <div className="hike-map-container">
       <h1>Hike</h1>
-      <AmplifySignOut />
       <Map
         latLng = {latLng.latLng}
-      />s
+      />
     </div>
   );
 }

@@ -17,37 +17,6 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify'
 
 let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
 console.log('stringit',JSON.stringify(array));
-
-  let  data = [
-      {
-        id: 1,
-        name: "a",
-        age: 29,
-        qualification: "B.Com",
-        rating: 3,
-        gender: "male",
-        city: "Kerala"
-      },
-      {
-        id: 2,
-        name: "b",
-        age: 35,
-        qualification: "B.Sc",
-        rating: 5,
-        gender: "female",
-        city: "Mumbai"
-      },
-      {
-        id: 3,
-        name: "c",
-        age: 42,
-        qualification: "B.E",
-        rating: 3,
-        gender: "female",
-        city: "Bangalore"
-      }
-    ]
-
 const initialState = { name: '', description: '', mapdata: JSON.stringify(array)}
 
 export default function AddHike(latLng) {
