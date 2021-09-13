@@ -4,11 +4,13 @@ import { withAuthenticator } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import * as mutations from '../../graphql/mutations'
 
 /**
  * Hike Component
  * App.js retrieves user location and passes the lat/long via props to the map component
- * Move to local state -- TODO
+ * Move to local state -- hike
  */
 function Admin() {
   const history = useHistory();
@@ -34,6 +36,16 @@ function Admin() {
     checkAuthState()
   })
 
+  async function deleteHike(id) {
+    try {
+      console.log('id is ', id);
+      await API.graphql({ query: mutations.deleteHikes, variables: {input: {id: id}}});
+      dispatch({
+        type: 'FETCH_HIKES_LIST'
+      });
+    } catch (err) { console.log('error deleting hike', err) }
+  }
+    
   return (
     <div className="hike-list">
       <h1>Discover Hike</h1>
@@ -51,10 +63,18 @@ function Admin() {
         </thead>
         <tbody> 
         {
-          hikes.map((todo, index) => (
-          <tr key={todo.id ? todo.id : index} >
-            <td>{todo.name}</td>
-            <td>{todo.description}</td>
+          hikes.map((hike, index) => (
+          <tr key={hike.id ? hike.id : index} >
+            <td>{hike.name}</td>
+            <td>{hike.description}</td>
+            <td></td>
+            <td></td>
+            <td>
+              <button onClick={() => deleteHike(hike.id)}>
+                DELETE
+              </button>
+            </td>
+            <td></td>
           </tr>
           ))
         }

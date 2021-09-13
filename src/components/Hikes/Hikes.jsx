@@ -15,7 +15,6 @@ function Hikes() {
   const history = useHistory();
   const dispatch = useDispatch();
   const hikes = useSelector(store => store.hikesListReducer);
-  console.log('hikes', hikes);
   useEffect(() => {
     dispatch({
       type: 'FETCH_HIKES_LIST'
@@ -23,7 +22,6 @@ function Hikes() {
   }, []);
 
   const user = useSelector((store) => store.user);
-  const [todos, setTodos] = useState([])
   async function checkAuthState() {
     try {
       await Auth.currentAuthenticatedUser()

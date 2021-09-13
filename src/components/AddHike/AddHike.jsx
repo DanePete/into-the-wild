@@ -34,9 +34,7 @@ export default function AddHike(latLng) {
     const [position, setPosition] = useState(null)
     const map = useMapEvents({
       click(e) {
-        console.log('e.latng', e.latlng);
         tempArray.push(e.latlng);
-        console.log('temp', tempArray);
         const { lat, lng } = e.latlng;
         L.marker([lat, lng], { icon }).addTo(map);
         setItems([...items, {lat,lng}])
