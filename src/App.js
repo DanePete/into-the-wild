@@ -23,6 +23,7 @@ import Hikes from './components/Hikes/Hikes'
 import Hike from './components/Hike/Hike'
 import AddHike from './components/AddHike/AddHike'
 import AboutPage from './components/AboutPage/AboutPage'
+import Admin from './components/Admin/Admin'
 
 
 Amplify.configure(awsExports);
@@ -93,6 +94,14 @@ function App() {
               <AddHike 
                 latLng = {[lat, lng]}
               />
+            </Route>
+
+            <Route
+              // shows AboutPage at all times (logged in or not)
+              exact
+              path="/admin"
+            >
+              <Admin  />
             </Route>
 
             <Route

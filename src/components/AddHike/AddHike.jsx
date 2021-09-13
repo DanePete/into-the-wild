@@ -6,8 +6,7 @@ import {
   TileLayer,
   Popup,
   useMapEvents,
-  Marker,
-  MapConsumer
+  Marker
 } from "react-leaflet";
 import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
@@ -30,7 +29,6 @@ export default function AddHike(latLng) {
     setFormState({ ...formState, [key]: value })
   }
 
-
   function LocationMarker() {
     let tempArray = [];
     const [position, setPosition] = useState(null)
@@ -42,7 +40,7 @@ export default function AddHike(latLng) {
         const { lat, lng } = e.latlng;
         L.marker([lat, lng], { icon }).addTo(map);
         setItems([...items, {lat,lng}])
-        setInput('mapdata', [...formState.mapdata, {lat, lng}]);
+        setInput('mapdata', [...formState.mapdata, JSON.stringify([lat, lng])]);
       }
     })
   

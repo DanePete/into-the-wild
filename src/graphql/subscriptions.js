@@ -38,8 +38,8 @@ export const onDeleteTodo = /* GraphQL */ `
   }
 `;
 export const onCreateHikes = /* GraphQL */ `
-  subscription OnCreateHikes($owner: String) {
-    onCreateHikes(owner: $owner) {
+  subscription OnCreateHikes {
+    onCreateHikes {
       id
       name
       description
@@ -53,8 +53,8 @@ export const onCreateHikes = /* GraphQL */ `
   }
 `;
 export const onUpdateHikes = /* GraphQL */ `
-  subscription OnUpdateHikes($owner: String) {
-    onUpdateHikes(owner: $owner) {
+  subscription OnUpdateHikes {
+    onUpdateHikes {
       id
       name
       description
@@ -68,8 +68,8 @@ export const onUpdateHikes = /* GraphQL */ `
   }
 `;
 export const onDeleteHikes = /* GraphQL */ `
-  subscription OnDeleteHikes($owner: String) {
-    onDeleteHikes(owner: $owner) {
+  subscription OnDeleteHikes {
+    onDeleteHikes {
       id
       name
       description
