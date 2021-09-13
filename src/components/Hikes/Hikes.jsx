@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Map from '../Map/Map';
 import './Hikes.css';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
-import { createTodo } from '../../graphql/mutations'
-import { listTodos } from '../../graphql/queries'
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import { useHistory } from 'react-router-dom';
 
 /**
  * Hike Component
@@ -14,6 +11,7 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify'
  * Move to local state -- TODO
  */
 function Hikes() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const hikes = useSelector(store => store.hikesListReducer);
   console.log('hikes', hikes);
@@ -38,8 +36,18 @@ function Hikes() {
   })
 
   return (
-    <div className="hike-map-container">
-      <h1>All Hikes</h1>
+    <div className="hike-list">
+      <h1>Discover Hike</h1>
+
+      <button
+          type="button"
+          className="btn btn-primary btn_asLink"
+          onClick={() => {
+            history.push('/add');
+          }}
+        >
+          Add Your Own Hike
+        </button>
 
       {/* TODO MAP */}
       {
