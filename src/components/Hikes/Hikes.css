@@ -12,3 +12,8 @@
 .leaflet-container {
   height: 500px !important;
 }
+
+amplify-s3-image {
+  --height: 200px;
+  --width: 400px;
+}

@@ -15,7 +15,7 @@ import { API, graphqlOperation, Storage } from 'aws-amplify'
 
 // let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
 // console.log('stringit',JSON.stringify(array));
-const initialState = { name: '', description: '', mapdata: ''}
+const initialState = { name: '', description: '', mapdata: '', image: ''}
 
 export default function AddHike(latLng) {
   const [file, setFile] = useState();
@@ -31,6 +31,8 @@ export default function AddHike(latLng) {
   const [markers, setMarkers] = useState([[51.505, -0.09]]);
 
   function setInput(key, value) {
+    console.log('key', key);
+    console.log('value', value);
     setFormState({ ...formState, [key]: value })
   }
 
@@ -50,11 +52,19 @@ export default function AddHike(latLng) {
    */
    async function addTodo() {
     try {
-      if (!formState.name || !formState.description) return
+      if (!formState.name || !formState.description || !formState.mapdata) return
       const todo = { ...formState }
       setHikes([...hikes, todo])
       setFormState(initialState)
       await API.graphql(graphqlOperation(createHikes, {input: todo}))
+      console.log('file is ', file);
+      const storageResult = await Storage.put(file.name, file, {
+        level: 'public',
+        type: 'image/png'
+      })
+      // Insert predictions code here later
+      setUploaded(true)
+      console.log('storage results',storageResult);
       history.push("/hikes");
     } catch (err) {
       console.log('error creating todo:', err)
@@ -64,6 +74,7 @@ export default function AddHike(latLng) {
 
   return (
     <>
+    <h1>ADD HIKE</h1>
     <MapContainer
       center={[46.392410, -94.636230]}
       zoom={6}
@@ -103,7 +114,7 @@ export default function AddHike(latLng) {
     <input
       type="file"
       className="form-control"
-      onChange={event => setInput('image', event.target.files[0])}
+      onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
     />
 
     <button className="btn btn-primary" onClick={addTodo}>Create Hike</button>

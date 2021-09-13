@@ -4,6 +4,7 @@ import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { AmplifyS3Image } from '@aws-amplify/ui-react';
 
 /**
  * Hike Component
@@ -54,6 +55,7 @@ function Hikes() {
         {
           hikes.map((todo, index) => (
           <div key={todo.id ? todo.id : index} className="card hike-card">
+            <AmplifyS3Image imgKey={todo.image} />
             <p>{todo.name}</p>
             <p>{todo.description}</p>
           </div>
