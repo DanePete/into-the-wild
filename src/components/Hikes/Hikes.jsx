@@ -56,8 +56,10 @@ function Hikes() {
           hikes.map((todo, index) => (
           <div key={todo.id ? todo.id : index} className="card hike-card">
             <AmplifyS3Image imgKey={todo.image} />
-            <p>{todo.name}</p>
-            <p>{todo.description}</p>
+            <div className="card-body">
+              <h5 className="card-title">{todo.name}</h5>
+              <p className="card-text">{todo.description}</p>
+            </div>
           </div>
           ))
         }
@@ -65,8 +67,6 @@ function Hikes() {
     </div>
   );
 }
-
-
 
 export default withAuthenticator(Hikes)
 

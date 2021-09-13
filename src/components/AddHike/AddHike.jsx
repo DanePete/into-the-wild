@@ -12,12 +12,16 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
+import { AmplifyS3ImagePicker } from '@aws-amplify/ui-react';
 
 // let array = [{name: 'dane'},'asdfasdfa', 'adsfasdfasf', 'asdfasdfasf']
 // console.log('stringit',JSON.stringify(array));
 const initialState = { name: '', description: '', mapdata: '', image: ''}
 
 export default function AddHike(latLng) {
+
+  console.log('latLng', latLng);
+
   const [file, setFile] = useState();
   const [uploaded, setUploaded] = useState(false);
 
@@ -76,8 +80,8 @@ export default function AddHike(latLng) {
     <>
     <h1>ADD HIKE</h1>
     <MapContainer
-      center={[46.392410, -94.636230]}
-      zoom={6}
+      center={latLng.latLng}
+      zoom={13}
       style={{ height: "100vh" }}
     >
       <TileLayer
@@ -110,7 +114,7 @@ export default function AddHike(latLng) {
       value={formState.description}
       placeholder="Description"
     />
-
+    {/* <AmplifyS3ImagePicker /> */}
     <input
       type="file"
       className="form-control"
