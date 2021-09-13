@@ -55,7 +55,7 @@ export default function AddHike(latLng) {
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
-  const [todos, setTodos] = useState([])
+  const [hikes, setHikes] = useState([])
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
   console.log('our default latLng', latLng);
@@ -83,7 +83,7 @@ export default function AddHike(latLng) {
     try {
       if (!formState.name || !formState.description) return
       const todo = { ...formState }
-      setTodos([...todos, todo])
+      setHikes([...hikes, todo])
       setFormState(initialState)
       await API.graphql(graphqlOperation(createHikes, {input: todo}))
       history.push("/hikes");
