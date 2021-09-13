@@ -104,19 +104,6 @@ function AddHike(latLng) {
   return (
     <div style={styles.container}>
       <h2>Add Hike</h2>
-      <input
-        onChange={event => setInput('name', event.target.value)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <input
-        onChange={event => setInput('description', event.target.value)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <button style={styles.button} onClick={addTodo}>Create Todo</button>
 
       <MapContainer onClick={addMarker} center={latLng.latLng} zoom={16}>
       <TileLayer
@@ -136,7 +123,19 @@ function AddHike(latLng) {
       </Marker>
     </MapContainer>
 
-
+      <input
+        onChange={event => setInput('name', event.target.value)}
+        className="form-control"
+        value={formState.name}
+        placeholder="Name"
+      />
+      <input
+        onChange={event => setInput('description', event.target.value)}
+        className="form-control"
+        value={formState.description}
+        placeholder="Description"
+      />
+      <button className="btn btn-primary" onClick={addTodo}>Create Hike</button>
     </div>
   );
 }

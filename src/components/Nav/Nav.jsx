@@ -13,7 +13,7 @@ function Nav() {
       setUser(userInfo)
     } catch (err) { 
       console.log('error: ', err) 
-      history.push("/login");
+      history.push('/home');
     }
   }
 
@@ -35,7 +35,6 @@ function Nav() {
         <h2 className="nav-title"></h2>
       </Link>
       
-
       <div>
         {/* If no user is logged in, show these links */}
         {!user &&
