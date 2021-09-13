@@ -14,7 +14,7 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
-const initialState = { name: '', description: '', mapdata: [], image: ''}
+const initialState = { name: '', description: '', mapdata: '', image: ''}
 
 export default function AddHike(latLng) {
   const [file, setFile] = useState();
@@ -29,16 +29,19 @@ export default function AddHike(latLng) {
     setFormState({ ...formState, [key]: value })
   }
 
+  /**
+   * Location Marker
+   * Allows users to add pins to the map
+   */
   function LocationMarker() {
-    let tempArray = [];
     const [position, setPosition] = useState(null)
     const map = useMapEvents({
       click(e) {
-        tempArray.push(e.latlng);
         const { lat, lng } = e.latlng;
-        L.marker([lat, lng], { icon }).addTo(map);
+        L.marker([lat, lng], { icon }).addTo(map)
         setItems([...items, {lat,lng}])
-        setInput('mapdata', [...formState.mapdata, JSON.stringify([lat, lng])]);
+        let newArray = [...formState.mapdata, [lat, lng]]
+        setInput('mapdata', JSON.stringify(newArray))
       }
     })
   
@@ -49,12 +52,10 @@ export default function AddHike(latLng) {
     )
   }
 
-  console.log('formstate', formState.mapdata);
-  
   /**
    * Add HIKE
    */
-   async function addTodo() {
+   async function addHike() {
     try {
       if (!formState.name || !formState.description || !formState.mapdata) return
       const todo = { ...formState }
@@ -72,7 +73,6 @@ export default function AddHike(latLng) {
       console.log('error creating todo:', err)
     }
   }
-
 
   return (
     <>
@@ -108,7 +108,7 @@ export default function AddHike(latLng) {
       onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
     />
 
-    <button className="btn btn-primary" onClick={addTodo}>Create Hike</button>
+    <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
     </>
   );
 }

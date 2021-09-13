@@ -49,7 +49,6 @@ function Admin() {
   return (
     <div className="hike-list">
       <h1>Discover Hike</h1>
-      {/* TODO MAP */}
       <table className="table table-dark table-stripped">
         <thead>
           <tr>
