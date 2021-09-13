@@ -39,41 +39,29 @@ function Admin() {
   return (
     <div className="hike-list">
       <h1>Discover Hike</h1>
-
-      <button
-          type="button"
-          className="btn btn-primary btn_asLink"
-          onClick={() => {
-            history.push('/add');
-          }}
-        >
-          Add Your Own Hike
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary btn_asLink"
-          onClick={() => {
-            history.push('/my-hikes');
-          }}
-        >
-         My Hikes
-        </button>
-
       {/* TODO MAP */}
-      <div className="d-flex">
+      <table className="table table-dark table-stripped">
+        <thead>
+          <tr>
+            <th>Name of hike</th>
+            <th>Description</th>
+            <th>Date Created</th>
+            <th>Date Updated</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody> 
         {
           hikes.map((todo, index) => (
-          <div key={todo.id ? todo.id : index} className="card hike-card">
-            <AmplifyS3Image imgKey={todo.image} />
-            <div className="card-body">
-              <h5 className="card-title">{todo.name}</h5>
-              <p className="card-text">{todo.description}</p>
-              <p className="card-text">{todo.mapdata}</p>
-            </div>
-          </div>
+          <tr key={todo.id ? todo.id : index} >
+            <td>{todo.name}</td>
+            <td>{todo.description}</td>
+          </tr>
           ))
         }
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 }
