@@ -44,6 +44,7 @@ export const onCreateHikes = /* GraphQL */ `
       name
       description
       image
+      like
       mapdata
       createdAt
       updatedAt
@@ -57,6 +58,7 @@ export const onUpdateHikes = /* GraphQL */ `
       name
       description
       image
+      like
       mapdata
       createdAt
       updatedAt
@@ -70,6 +72,7 @@ export const onDeleteHikes = /* GraphQL */ `
       name
       description
       image
+      like
       mapdata
       createdAt
       updatedAt

@@ -49,6 +49,15 @@ function Hikes() {
         >
           Add Your Own Hike
         </button>
+        <button
+          type="button"
+          className="btn btn-primary btn_asLink"
+          onClick={() => {
+            history.push('/my-hikes');
+          }}
+        >
+         My Hikes
+        </button>
 
       {/* TODO MAP */}
       <div className="d-flex">
@@ -59,6 +68,7 @@ function Hikes() {
             <div className="card-body">
               <h5 className="card-title">{todo.name}</h5>
               <p className="card-text">{todo.description}</p>
+              <p className="card-text">{todo.mapdata}</p>
             </div>
           </div>
           ))

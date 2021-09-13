@@ -39,6 +39,7 @@ export const getHikes = /* GraphQL */ `
       name
       description
       image
+      like
       mapdata
       createdAt
       updatedAt
@@ -57,6 +58,7 @@ export const listHikes = /* GraphQL */ `
         name
         description
         image
+        like
         mapdata
         createdAt
         updatedAt

@@ -10,5 +10,6 @@ type Hikes @model {
   name: String!
   description: String
   image: String
+  like: Boolean
   mapdata: AWSJSON
 }
