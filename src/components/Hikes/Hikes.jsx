@@ -30,6 +30,15 @@ function Hikes() {
     }
   }
 
+  const hikeClick = (id) => {
+    console.log('id', id);
+    // console.log('the image click id is', id);
+    dispatch({ type: 'FETCH_HIKE_DETAILS', payload: {id: id}});
+    // history.push(`/hike/${id}`);
+}
+
+  
+
   useEffect(() => {
     checkAuthState()
   })
@@ -47,7 +56,7 @@ function Hikes() {
         >
           Add Your Own Hike
         </button>
-        
+
         <button
           type="button"
           className="btn btn-primary btn_asLink"
@@ -69,13 +78,11 @@ function Hikes() {
               <p className="card-text">{todo.description}</p>
               <p className="card-text">{todo.mapdata}</p>
               <button
-              type="button"
-              className="btn btn-primary btn_asLink"
-              onClick={() => {
-              history.push('/my-hikes');
-              }}
+                type="button"
+                className="btn btn-primary btn_asLink"
+                onClick={() => hikeClick(todo.id)}
               >
-              My Hikes
+              View Hikes
               </button>
             </div>
           </div>
