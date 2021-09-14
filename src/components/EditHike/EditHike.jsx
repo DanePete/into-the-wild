@@ -16,7 +16,7 @@ import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
 import { getHikes } from '../../graphql/queries'
 import { useParams } from 'react-router-dom';
-const initialState = { name: '', city: '', description: '', mapdata: '', image: ''}
+const initialState = { name: '', city: '', state: '', description: '', mapdata: '', image: ''}
 
 
 export default function EditHike(latLng) {
@@ -74,9 +74,7 @@ export default function EditHike(latLng) {
     try {
       const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
       setHike(JSON.parse(hikeCall.data.getHikes.mapdata))
-      console.log('hike call', hikeCall.data.getHikes);
-      setInput('name', hikeCall.data.getHikes.name)
-      setInput('description', hikeCall.data.getHikes.description)
+      setFormState({ name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: '', image: ''})
       setLoading(false);
     } catch (err) { console.log('error fetching todos') }
   }
@@ -88,7 +86,7 @@ export default function EditHike(latLng) {
 
 
 
-
+  console.log('formstate', formState);
 
   /**
    * Add HIKE
@@ -257,7 +255,7 @@ export default function EditHike(latLng) {
         <LocationMarker />
       </MapContainer>
       <hr></hr>
-      <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
+      <button className="btn btn-primary" onClick={addHike}>Save Edits</button>
       </div>
 
       <div className="hike-images card">

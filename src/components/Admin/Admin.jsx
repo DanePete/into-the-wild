@@ -52,7 +52,7 @@ function Admin() {
   const editClick = (id) => {
     console.log('the image click id is', id);
     // dispatch({ type: 'FETCH_MOVIE_DETAILS', payload: {id: id}});
-    history.push(`/hike/${id}`);
+    history.push(`/edit-hike/${id}`);
 }
 
     

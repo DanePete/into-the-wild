@@ -8,7 +8,7 @@ export const getHikes = /* GraphQL */ `
       name
       description
       city
-      State
+      state
       image
       like
       mapdata
@@ -30,7 +30,7 @@ export const listHikes = /* GraphQL */ `
         name
         description
         city
-        State
+        state
         image
         like
         mapdata

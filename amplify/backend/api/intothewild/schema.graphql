@@ -17,7 +17,7 @@ type Hikes @model
   name: String!
   description: String
   city: String
-  State: String
+  state: String
   image: String
   like: Boolean
   mapdata: AWSJSON

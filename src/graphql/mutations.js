@@ -11,7 +11,7 @@ export const createHikes = /* GraphQL */ `
       name
       description
       city
-      State
+      state
       image
       like
       mapdata
@@ -31,7 +31,7 @@ export const updateHikes = /* GraphQL */ `
       name
       description
       city
-      State
+      state
       image
       like
       mapdata
@@ -51,7 +51,7 @@ export const deleteHikes = /* GraphQL */ `
       name
       description
       city
-      State
+      state
       image
       like
       mapdata

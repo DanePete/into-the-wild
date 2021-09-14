@@ -14,7 +14,7 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
-const initialState = { name: '', city: '', description: '', mapdata: '', image: ''}
+const initialState = { name: '', city: '', state: '', description: '', mapdata: '', image: ''}
 
 
 export default function AddHike(latLng) {
@@ -59,8 +59,9 @@ export default function AddHike(latLng) {
     try {
       if (formState.name && formState.description && formState.mapdata)  {
       const todo = { ...formState }
-      setHikes([...hikes, todo])
-      setFormState(initialState)
+      console.log('todo', todo);
+      // setHikes([...hikes, todo])
+      // setFormState(initialState)
       await API.graphql(graphqlOperation(createHikes, {input: todo}))
       await Storage.put(file.name, file, {
         level: 'public',
@@ -94,6 +95,8 @@ export default function AddHike(latLng) {
       },
     })
   }
+
+  console.log('formstate', formState);
 
   return (
     <div className="container-hike-form">
@@ -133,8 +136,13 @@ export default function AddHike(latLng) {
           placeholder="City"
         />
 
-        <select className="form-control">
-        <option value="NA">State...</option>
+        <select 
+          className="form-control"
+          onChange={event => setInput('state', event.target.value)}
+          value={formState.state}
+          placeholder="state"
+        >
+          <option value="NA">State...</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
