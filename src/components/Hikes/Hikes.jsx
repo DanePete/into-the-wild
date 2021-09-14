@@ -41,7 +41,7 @@ function Hikes() {
   })
 
   return (
-    <div className="hike-list">
+    <div className="container hike-list">
       <h1>Discover Hike</h1>
 
       <button
@@ -65,7 +65,7 @@ function Hikes() {
         </button>
 
       {/* TODO MAP */}
-      <div className="container mt-4">
+      <div className="mt-4">
         <div className="row">
           {
             hikes.map((todo, index) => (

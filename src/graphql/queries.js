@@ -38,3 +38,34 @@ export const listHikes = /* GraphQL */ `
     }
   }
 `;
+export const searchHikes = /* GraphQL */ `
+  query SearchHikes(
+    $filter: SearchableHikesFilterInput
+    $sort: SearchableHikesSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchHikes(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        name
+        description
+        image
+        like
+        mapdata
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+      total
+    }
+  }
+`;

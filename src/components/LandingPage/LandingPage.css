@@ -17,7 +17,7 @@ Grid
   width: 60%;
 }
 
-.main {
+.landing-container {
   background-image: url("hike.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -38,6 +38,11 @@ Grid
 .map {
   width: 500px;
   margin: 0 auto;
+}
+
+.container-fluid {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 .grid-col {

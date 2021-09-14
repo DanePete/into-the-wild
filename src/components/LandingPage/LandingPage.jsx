@@ -10,7 +10,7 @@ function LandingPage() {
   };
 
   return (
-    <div className="container landing-container">
+    <div className="landing-container">
       <div className="grid">
         <div className="grid-col grid-col_8">
           <div className="hero-text">
