@@ -11,6 +11,11 @@
   pointer-events: none;
 }
 
+body {
+  color: #2C2C2C;
+  background: white;
+}
+
 /* .main {
   background-image: url("hike.jpg");
   background-repeat: no-repeat;
@@ -22,6 +27,19 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.card {
+  position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    box-shadow: 3px 3px 10px 1px #00000069;
 }
 
 .App-header {
