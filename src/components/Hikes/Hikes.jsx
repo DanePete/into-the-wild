@@ -21,6 +21,7 @@ function Hikes() {
       type: 'FETCH_HIKES_LIST'
     });
   }, []);
+  
 
   const user = useSelector((store) => store.user);
   async function checkAuthState() {
@@ -32,13 +33,8 @@ function Hikes() {
   }
 
   const hikeClick = (id) => {
-    console.log('id', id);
-    // console.log('the image click id is', id);
-    dispatch({ type: 'FETCH_HIKE_DETAILS', payload: {id: id}});
     history.push(`/hike/${id}`);
-}
-
-  
+  }
 
   useEffect(() => {
     checkAuthState()

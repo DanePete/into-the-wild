@@ -17,6 +17,13 @@ Grid
   width: 60%;
 }
 
+/* .main {
+  background-image: url("hike.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh
+} */
+
 .grid {
   display: flex;
   flex: 0 1 auto;

@@ -7,12 +7,12 @@
   pointer-events: none;
 }
 
-.main {
+/* .main {
   background-image: url("hike.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh
-}
+} */
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

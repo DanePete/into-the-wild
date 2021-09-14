@@ -1,9 +1,6 @@
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
-import { useDispatch } from 'react-redux';
+import Amplify from 'aws-amplify'
 import awsExports from "./aws-exports";
 import Nav from './components/Nav/Nav';
 import './App.css';
@@ -25,6 +22,7 @@ import AddHike from './components/AddHike/AddHike'
 import AboutPage from './components/AboutPage/AboutPage'
 import Admin from './components/Admin/Admin'
 import HikesMap from './components/HikesMap/HikesMap'
+import Map from './components/Map/Map'
 
 
 Amplify.configure(awsExports);
@@ -111,6 +109,14 @@ function App() {
               path="/admin"
             >
               <Admin  />
+            </Route>
+
+            <Route
+              // shows AboutPage at all times (logged in or not)
+              exact
+              path="/map"
+            >
+              <Map  />
             </Route>
 
             <Route

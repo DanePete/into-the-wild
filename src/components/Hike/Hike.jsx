@@ -3,50 +3,48 @@ import Map from '../Map/Map';
 import './Hike.css';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useHistory, useParams } from 'react-router-dom';
+import { getHikes } from '../../graphql/queries'
+import Amplify, { API, graphqlOperation } from 'aws-amplify'
+
 /**
  * Hike Component
  * App.js retrieves user location and passes the lat/long via props to the map component
  * Move to local state -- TODO
  */
 function Hike() {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
-  const hike = useSelector(store => store.hikeReducer);
-  // console.log('hike', hike.mapdata);
-  // console.log('hike parse', JSON.parse(hike.mapdata));
-  async function checkAuthState() {
+  const [hike, setHike] = useState([])
+
+  const { id } = useParams();
+  console.log('our id is', id);
+
+
+  async function fetchTodos() {
     try {
-      await Auth.currentAuthenticatedUser()
-    } catch (err) {
-      // props.history.push(route)
-    }
+      const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
+      console.log('hikeCall', hikeCall);
+      const hike = hikeCall.data.getHikes
+      console.log('hike', hike);
+      setHike(hikeCall.data.getHikes.mapdata)
+      // setTodos(todos)
+    } catch (err) { console.log('error fetching todos') }
   }
 
   useEffect(() => {
-    checkAuthState()
-  })
+    fetchTodos();
+  }, []);
 
   return (
     <div className="hike-map-container">
       <h1>Hike</h1>
-      <MapContainer zoom={16} scrollWheelZoom={false}>
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      <Map 
+        mapdata = {hike}
       />
-      <TileLayer
-        url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
-      />
-      <TileLayer
-        url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
-      />
-      {/* <Marker position={latLng.latLng}>
-        <Popup>
-          FOUND YOU! 
-        </Popup>
-      </Marker> */}
-    </MapContainer>
     </div>
   );
 }
