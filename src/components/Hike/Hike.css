@@ -2,11 +2,10 @@
   padding: 35px;
   margin: 35px;
   border-radius: 9px;
-  width: 50%;
   background: white;
   box-shadow: 1px 1px 1px 1px black;
   margin: 0 auto;
-  height: 550px;
+  height: auto !important;
 }
 
 .leaflet-container {

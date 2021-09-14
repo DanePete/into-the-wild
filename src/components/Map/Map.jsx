@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 function Map(hike) {
   console.log('latng map', hike);
-  // let markers = JSON.parse(hike.mapdata);
+  let markers = hike.mapdata.mapdata;
   const position = [51.505, -0.09]
 
   /**
@@ -17,8 +17,8 @@ function Map(hike) {
       attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-
-    {/* {markers?.map(data => {
+ 
+    {markers?.map(data => {
       console.log(data.lat);
       console.log(data.lng);
       let array = [Number(data.lat), Number(data.lng)]
@@ -30,7 +30,7 @@ function Map(hike) {
         </Popup>
         </Marker>
       );
-    })} */}
+    })}
   </MapContainer>
   );
 }

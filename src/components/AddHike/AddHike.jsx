@@ -95,13 +95,14 @@ export default function AddHike(latLng) {
       value={formState.name}
       placeholder="Name"
     />
+    
     <textarea
       onChange={event => setInput('description', event.target.value)}
       className="form-control"
       value={formState.description}
       placeholder="Description"
     />
-    {/* <AmplifyS3ImagePicker /> */}
+
     <input
       type="file"
       className="form-control"
