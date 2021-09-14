@@ -1,10 +1,18 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-function Map(hike) {
-  console.log('latng map', hike);
-  let markers = hike.mapdata.mapdata;
-  const position = [51.505, -0.09]
+function Map(latLng) {
+  console.log('latng map', latLng.latLng);
+
+  /**
+   * Add Marker
+   */
+  const addMarker = (e) => {
+    const {markers} = this.state
+    console.log('lat lng drop', e.latLng);
+    markers.push(e.latlng)
+    this.setState({markers})
+  }
 
   /**
    * Map Component
@@ -12,26 +20,23 @@ function Map(hike) {
    * Pulls precipitation and cloud data from Open Weather Map API
    */
   return (
-    <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
-    <TileLayer
-      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
- 
-    {markers?.map(data => {
-      console.log(data.lat);
-      console.log(data.lng);
-      let array = [Number(data.lat), Number(data.lng)]
-      console.log('array', array);
-      return (
-        <Marker position={array}>
+    <MapContainer onClick={addMarker} center={latLng.latLng} zoom={16} scrollWheelZoom={false}>
+      <TileLayer
+        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <TileLayer
+        url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+      />
+      <TileLayer
+        url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+      />
+      <Marker position={latLng.latLng}>
         <Popup>
-        FOUND YOU! 
+          FOUND YOU! 
         </Popup>
-        </Marker>
-      );
-    })}
-  </MapContainer>
+      </Marker>
+    </MapContainer>
   );
 }
 

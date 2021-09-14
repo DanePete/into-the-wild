@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
-import { API, graphqlOperation, Storage } from 'aws-amplify'
+import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
 const initialState = { name: '', description: '', mapdata: '', image: ''}
 
 
@@ -62,10 +62,16 @@ export default function AddHike(latLng) {
       setHikes([...hikes, todo])
       setFormState(initialState)
       await API.graphql(graphqlOperation(createHikes, {input: todo}))
-      const storageResult = await Storage.put(file.name, file, {
+      await Storage.put(file.name, file, {
         level: 'public',
         type: 'image/png'
+        }, {
+        progressCallBack(progress) {
+          console.log(progress);
+          console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+        },
       })
+      
       // Insert predictions code here later
       setUploaded(true)
       history.push("/hikes");
