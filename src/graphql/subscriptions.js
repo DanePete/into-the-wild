@@ -7,6 +7,8 @@ export const onCreateHikes = /* GraphQL */ `
       id
       name
       description
+      city
+      State
       image
       like
       mapdata
@@ -22,6 +24,8 @@ export const onUpdateHikes = /* GraphQL */ `
       id
       name
       description
+      city
+      State
       image
       like
       mapdata
@@ -37,6 +41,8 @@ export const onDeleteHikes = /* GraphQL */ `
       id
       name
       description
+      city
+      State
       image
       like
       mapdata

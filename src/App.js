@@ -23,6 +23,7 @@ import AboutPage from './components/AboutPage/AboutPage'
 import Admin from './components/Admin/Admin'
 import HikesMap from './components/HikesMap/HikesMap'
 import Map from './components/Map/Map'
+import EditHike from './components/EditHike/EditHike'
 
 
 Amplify.configure(awsExports);
@@ -125,6 +126,14 @@ function App() {
             >
               <LandingPage /> 
             </Route>
+
+            <Route
+              exact
+              path="/edit-hike/:id"
+            >
+              <EditHike /> 
+            </Route>
+
 
             {/* If none of the other routes matched, we will show a 404. */}
             <Route>

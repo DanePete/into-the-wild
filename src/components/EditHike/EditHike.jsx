@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
-import './AddHike.css'
+import './EditHike.css'
 import {
   MapContainer,
   TileLayer,
@@ -14,10 +14,22 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
+import { getHikes } from '../../graphql/queries'
+import { useParams } from 'react-router-dom';
 const initialState = { name: '', city: '', description: '', mapdata: '', image: ''}
 
 
-export default function AddHike(latLng) {
+export default function EditHike(latLng) {
+
+
+
+  const [hike, setHike] = useState()
+  const [isLoading, setLoading] = useState(true);
+  const { id } = useParams();
+
+
+
+
   const [file, setFile] = useState();
   const [uploaded, setUploaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -51,6 +63,32 @@ export default function AddHike(latLng) {
       </Marker>
     )
   }
+
+
+
+
+
+
+
+  async function fetchHike() {
+    try {
+      const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
+      setHike(JSON.parse(hikeCall.data.getHikes.mapdata))
+      console.log('hike call', hikeCall.data.getHikes);
+      setInput('name', hikeCall.data.getHikes.name)
+      setInput('description', hikeCall.data.getHikes.description)
+      setLoading(false);
+    } catch (err) { console.log('error fetching todos') }
+  }
+
+  useEffect(() => {
+    fetchHike();
+  }, []);
+
+
+
+
+
 
   /**
    * Add HIKE
@@ -95,6 +133,10 @@ export default function AddHike(latLng) {
     })
   }
 
+  if (isLoading) {
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
+  }
+
   return (
     <div className="container-hike-form">
       <div className="add-hike-global-container container card">
@@ -105,12 +147,12 @@ export default function AddHike(latLng) {
         <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
         </div>
         
-        <div class="alert alert-success alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <div className="alert alert-success alert-dismissible">
+    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Success!</strong> Indicates a successful or positive action.
     </div>
         
-      <h1>ADD HIKE</h1>
+      <h1>EDIT HIKE</h1>
       <div className="add-hike-form-container">
         <input
           onChange={event => setInput('name', event.target.value)}
