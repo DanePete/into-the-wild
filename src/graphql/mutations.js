@@ -54,6 +54,7 @@ export const createHikes = /* GraphQL */ `
     createHikes(input: $input, condition: $condition) {
       id
       name
+      date
       description
       image
       like
@@ -72,6 +73,7 @@ export const updateHikes = /* GraphQL */ `
     updateHikes(input: $input, condition: $condition) {
       id
       name
+      date
       description
       image
       like
@@ -90,6 +92,7 @@ export const deleteHikes = /* GraphQL */ `
     deleteHikes(input: $input, condition: $condition) {
       id
       name
+      date
       description
       image
       like

@@ -21,6 +21,7 @@ type Hikes @model
 {
   id: ID!
   name: String!
+  date: String
   description: String
   image: String
   like: Boolean

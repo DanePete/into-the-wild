@@ -45,6 +45,13 @@ function Admin() {
       });
     } catch (err) { console.log('error deleting hike', err) }
   }
+
+  const editClick = (id) => {
+    console.log('the image click id is', id);
+    // dispatch({ type: 'FETCH_MOVIE_DETAILS', payload: {id: id}});
+    history.push(`/hike/${id}`);
+}
+
     
   return (
     <div className="hike-list">
@@ -69,7 +76,7 @@ function Admin() {
             <td></td>
             <td></td>
             <td>
-              <button className="btn btn-primary" onClick={() => deleteHike(hike.id)}>
+              <button className="btn btn-primary" onClick={() => editClick(hike.id)}>
                 EDIT
               </button>
             </td>

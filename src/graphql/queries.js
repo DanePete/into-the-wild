@@ -37,6 +37,7 @@ export const getHikes = /* GraphQL */ `
     getHikes(id: $id) {
       id
       name
+      date
       description
       image
       like
@@ -57,6 +58,7 @@ export const listHikes = /* GraphQL */ `
       items {
         id
         name
+        date
         description
         image
         like

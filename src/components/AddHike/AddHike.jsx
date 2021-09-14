@@ -16,6 +16,7 @@ import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
 const initialState = { name: '', description: '', mapdata: '', image: ''}
 
+
 export default function AddHike(latLng) {
   const [file, setFile] = useState();
   const [uploaded, setUploaded] = useState(false);
@@ -40,8 +41,7 @@ export default function AddHike(latLng) {
         const { lat, lng } = e.latlng;
         L.marker([lat, lng], { icon }).addTo(map)
         setItems([...items, {lat,lng}])
-        let newArray = [...formState.mapdata, [lat, lng]]
-        setInput('mapdata', JSON.stringify(newArray))
+        setInput('mapdata', JSON.stringify(items))
       }
     })
   

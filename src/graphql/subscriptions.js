@@ -42,6 +42,7 @@ export const onCreateHikes = /* GraphQL */ `
     onCreateHikes {
       id
       name
+      date
       description
       image
       like
@@ -57,6 +58,7 @@ export const onUpdateHikes = /* GraphQL */ `
     onUpdateHikes {
       id
       name
+      date
       description
       image
       like
@@ -72,6 +74,7 @@ export const onDeleteHikes = /* GraphQL */ `
     onDeleteHikes {
       id
       name
+      date
       description
       image
       like
