@@ -29,13 +29,13 @@ function Hike() {
   }, []);
 
   if (isLoading) {
-    return <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
 
   return (
     <div className="hike-map-container container">
       <h1>Hike</h1>
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+        <MapContainer center={hike[0]} zoom={16} scrollWheelZoom={false}>
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

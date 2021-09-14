@@ -14,7 +14,7 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
-const initialState = { name: '', description: '', mapdata: '', image: ''}
+const initialState = { name: '', city: '', description: '', mapdata: '', image: ''}
 
 
 export default function AddHike(latLng) {
@@ -84,55 +84,135 @@ export default function AddHike(latLng) {
   }
 
   return (
-    <div className="add-hike-global-container container card">
-      <div class="alert alert-success" role="alert">
-      <h4 class="alert-heading">Well done!</h4>
-      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+    <div className="container-hike-form">
+      <div className="add-hike-global-container container card">
+        <div className="alert alert-success" role="alert">
+        <h4 className="alert-heading">Well done!</h4>
+        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
 
-      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+        <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+        </div>
+        
+        <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> Indicates a successful or positive action.
+    </div>
+        
+      <h1>ADD HIKE</h1>
+      <div className="add-hike-form-container">
+        <input
+          onChange={event => setInput('name', event.target.value)}
+          className="form-control"
+          value={formState.name}
+          placeholder="Name"
+        />
+        
+        <textarea
+          onChange={event => setInput('description', event.target.value)}
+          className="form-control"
+          value={formState.description}
+          placeholder="Description"
+        />
+
+        <input
+          onChange={event => setInput('city', event.target.value)}
+          className="form-control"
+          value={formState.city}
+          placeholder="City"
+        />
+
+        <select className="form-control">
+        <option value="NA">State...</option>
+          <option value="AL">Alabama</option>
+          <option value="AK">Alaska</option>
+          <option value="AZ">Arizona</option>
+          <option value="AR">Arkansas</option>
+          <option value="CA">California</option>
+          <option value="CO">Colorado</option>
+          <option value="CT">Connecticut</option>
+          <option value="DE">Delaware</option>
+          <option value="DC">District Of Columbia</option>
+          <option value="FL">Florida</option>
+          <option value="GA">Georgia</option>
+          <option value="HI">Hawaii</option>
+          <option value="ID">Idaho</option>
+          <option value="IL">Illinois</option>
+          <option value="IN">Indiana</option>
+          <option value="IA">Iowa</option>
+          <option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option>
+          <option value="LA">Louisiana</option>
+          <option value="ME">Maine</option>
+          <option value="MD">Maryland</option>
+          <option value="MA">Massachusetts</option>
+          <option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option>
+          <option value="MS">Mississippi</option>
+          <option value="MO">Missouri</option>
+          <option value="MT">Montana</option>
+          <option value="NE">Nebraska</option>
+          <option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option>
+          <option value="NJ">New Jersey</option>
+          <option value="NM">New Mexico</option>
+          <option value="NY">New York</option>
+          <option value="NC">North Carolina</option>
+          <option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option>
+          <option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option>
+          <option value="TN">Tennessee</option>
+          <option value="TX">Texas</option>
+          <option value="UT">Utah</option>
+          <option value="VT">Vermont</option>
+          <option value="VA">Virginia</option>
+          <option value="WA">Washington</option>
+          <option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option>
+          <option value="WY">Wyoming</option>
+        </select>				
+
+        {/* <input
+          type="file"
+          className="form-control"
+          onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
+        /> */}
+      </div>
+
+      <div className="hike-images">
+        <input
+          type="file"
+          className="form-control"
+          onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
+        />
       </div>
       
-      <div class="alert alert-success alert-dismissible">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Indicates a successful or positive action.
-</div>
-      
-    <h1>ADD HIKE</h1>
-    <div className="add-hike-form-container">
-      <input
-        onChange={event => setInput('name', event.target.value)}
-        className="form-control"
-        value={formState.name}
-        placeholder="Name"
-      />
-      
-      <textarea
-        onChange={event => setInput('description', event.target.value)}
-        className="form-control"
-        value={formState.description}
-        placeholder="Description"
-      />
+      <MapContainer
+        center={latLng.latLng}
+        zoom={13}
+        style={{ height: "100vh" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <LocationMarker />
+      </MapContainer>
+      <hr></hr>
+      <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
+      </div>
 
+      <div className="hike-images card">
       <input
         type="file"
         className="form-control"
         onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
       />
     </div>
-    
-    <MapContainer
-      center={latLng.latLng}
-      zoom={13}
-      style={{ height: "100vh" }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <LocationMarker />
-    </MapContainer>
-    <hr></hr>
-    <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
-    </div>
+  </div>
   );
 }

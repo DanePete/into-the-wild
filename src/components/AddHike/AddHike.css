@@ -19,3 +19,7 @@
 .add-hike-global-container {
   padding: 15px;
 }
+
+.container-hike-form {
+  display: flex;
+}

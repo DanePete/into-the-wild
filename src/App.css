@@ -6,6 +6,10 @@
   display: flex;
 }
 
+.form-control {
+  margin: 5px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

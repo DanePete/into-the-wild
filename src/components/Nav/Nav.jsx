@@ -36,8 +36,8 @@ function Nav() {
   return (
     <ProSidebar>
     <SidebarHeader>
-      <h5>Into The Wild</h5>
       <img className='logo' src={img}></img>
+      <h5>Into The Wild</h5>
     </SidebarHeader>
     <Menu iconShape="square">
       {/* <SubMenu title="Components"> */}
