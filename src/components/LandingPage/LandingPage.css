@@ -17,12 +17,12 @@ Grid
   width: 60%;
 }
 
-/* .main {
+.main {
   background-image: url("hike.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh
-} */
+}
 
 .grid {
   display: flex;

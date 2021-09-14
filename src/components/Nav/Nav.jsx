@@ -7,6 +7,7 @@ import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, Side
 import 'react-pro-sidebar/dist/css/styles.css';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faGem } from '@fortawesome/free-solid-svg-icons';
+import img from '../../assets/logo.png'
 
 function Nav() {
   const history = useHistory();
@@ -36,6 +37,7 @@ function Nav() {
     <ProSidebar>
     <SidebarHeader>
       <h5>Into The Wild</h5>
+      <img className='logo' src={img}></img>
     </SidebarHeader>
     <Menu iconShape="square">
       {/* <SubMenu title="Components"> */}

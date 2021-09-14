@@ -42,12 +42,13 @@
 }
 
 .logo {
-  height: 68px;
-    position: absolute;
-    top: 0;
-    left: 0;
+  height: 125px;
 }
 
 .pro-sidebar {
   height: initial !important;
+}
+
+.pro-sidebar-header {
+  text-align: center;
 }
