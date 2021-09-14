@@ -16,6 +16,7 @@ function Admin() {
   const history = useHistory();
   const dispatch = useDispatch();
   const hikes = useSelector(store => store.hikesListReducer);
+  console.log('hikes', hikes);
   useEffect(() => {
     dispatch({
       type: 'FETCH_HIKES_LIST'
@@ -36,6 +37,8 @@ function Admin() {
     checkAuthState()
   })
 
+  console.log('hikes', hikes);
+
   async function deleteHike(id) {
     try {
       console.log('id is ', id);
@@ -55,41 +58,49 @@ function Admin() {
     
   return (
     <div className="hike-list container card">
-      <h1>Discover Hike</h1>
-      <table className="table table-stripped">
-        <thead>
-          <tr>
-            <th>Name of hike</th>
-            <th>Description</th>
-            <th>Date Created</th>
-            <th>Date Updated</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody> 
-        {
-          hikes.map((hike, index) => (
-          <tr key={hike.id ? hike.id : index} >
-            <td>{hike.name}</td>
-            <td>{hike.description}</td>
-            <td></td>
-            <td></td>
-            <td>
-              <button className="btn btn-primary" onClick={() => editClick(hike.id)}>
-                EDIT
-              </button>
-            </td>
-            <td>
-            <button className="btn btn-danger" onClick={() => deleteHike(hike.id)}>
-                DELETE
-              </button>
-            </td>
-          </tr>
-          ))
-        }
-        </tbody>
-      </table>
+
+      <div className="card-header">
+        <h5 className="card-title">Admin Hikes</h5>
+      </div>
+      <div className="card-body">
+        <table className="table table-stripped">
+          <thead>
+            <tr>
+              <th>Name of hike</th>
+              <th>Description</th>
+              <th>Created By:</th>
+              <th>Date Created</th>
+              <th>Last Updated</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody> 
+          {
+            hikes.map((hike, index) => (
+            <tr key={hike.id ? hike.id : index} >
+              <td>{hike.name}</td>
+              <td>{hike.description}</td>
+              <td>{hike.owner}</td>
+              <td>{hike.createdAt}</td>
+              <td>{hike.updatedAt}</td>
+              <td>
+                <button className="btn btn-primary" onClick={() => editClick(hike.id)}>
+                  EDIT
+                </button>
+              </td>
+              <td>
+              <button className="btn btn-danger" onClick={() => deleteHike(hike.id)}>
+                  DELETE
+                </button>
+              </td>
+            </tr>
+            ))
+          }
+          </tbody>
+        </table>
+      </div>
+
     </div>
   );
 }
