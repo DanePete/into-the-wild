@@ -10,8 +10,11 @@ import { useSelector } from 'react-redux';
  * App.js retrieves user location and passes the lat/long via props to the map component
  * Move to local state -- TODO
  */
-function Hike(latLng) {
+function Hike() {
   const user = useSelector((store) => store.user);
+  const hike = useSelector(store => store.hikeReducer);
+  // console.log('hike', hike.mapdata);
+  console.log('hike parse', JSON.parse(hike.mapdata));
   async function checkAuthState() {
     try {
       await Auth.currentAuthenticatedUser()
@@ -27,9 +30,9 @@ function Hike(latLng) {
   return (
     <div className="hike-map-container">
       <h1>Hike</h1>
-      <Map
-        latLng = {latLng.latLng}
-      />
+      {/* <Map
+        // latLng = {latLng.latLng}
+      /> */}
     </div>
   );
 }

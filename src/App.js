@@ -65,7 +65,7 @@ function App() {
             <Route
               // shows AboutPage at all times (logged in or not)
               exact
-              path="/hike"
+              path="/hike/:id"
             >
               <Hike
                 latLng = {[lat, lng]}

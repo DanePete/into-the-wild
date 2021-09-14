@@ -15,6 +15,7 @@ function Hikes() {
   const history = useHistory();
   const dispatch = useDispatch();
   const hikes = useSelector(store => store.hikesListReducer);
+  // console.log('hike parse', JSON.parse(hikes.mapdata));
   useEffect(() => {
     dispatch({
       type: 'FETCH_HIKES_LIST'
@@ -34,7 +35,7 @@ function Hikes() {
     console.log('id', id);
     // console.log('the image click id is', id);
     dispatch({ type: 'FETCH_HIKE_DETAILS', payload: {id: id}});
-    // history.push(`/hike/${id}`);
+    history.push(`/hike/${id}`);
 }
 
   
