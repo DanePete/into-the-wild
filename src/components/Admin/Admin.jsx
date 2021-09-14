@@ -54,9 +54,9 @@ function Admin() {
 
     
   return (
-    <div className="hike-list">
+    <div className="hike-list container card">
       <h1>Discover Hike</h1>
-      <table className="table table-dark table-stripped">
+      <table className="table table-stripped">
         <thead>
           <tr>
             <th>Name of hike</th>

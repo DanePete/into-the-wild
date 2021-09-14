@@ -57,7 +57,7 @@ export default function AddHike(latLng) {
    */
    async function addHike() {
     try {
-      if (!formState.name || !formState.description || !formState.mapdata) return
+      if (formState.name && formState.description && formState.mapdata)  {
       const todo = { ...formState }
       setHikes([...hikes, todo])
       setFormState(initialState)
@@ -75,13 +75,28 @@ export default function AddHike(latLng) {
       // Insert predictions code here later
       setUploaded(true)
       history.push("/hikes");
+    } else {
+      alert('yo dog you suck')
+    }
     } catch (err) {
       console.log('error creating todo:', err)
     }
   }
 
   return (
-    <>
+    <div className="add-hike-global-container container card">
+      <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Well done!</h4>
+      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+
+      <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+      </div>
+      
+      <div class="alert alert-success alert-dismissible">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Success!</strong> Indicates a successful or positive action.
+</div>
+      
     <h1>ADD HIKE</h1>
     <div className="add-hike-form-container">
       <input
@@ -104,6 +119,7 @@ export default function AddHike(latLng) {
         onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
       />
     </div>
+    
     <MapContainer
       center={latLng.latLng}
       zoom={13}
@@ -115,7 +131,8 @@ export default function AddHike(latLng) {
       />
       <LocationMarker />
     </MapContainer>
+    <hr></hr>
     <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
-    </>
+    </div>
   );
 }

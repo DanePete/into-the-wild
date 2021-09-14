@@ -29,11 +29,11 @@ function Hike() {
   }, []);
 
   if (isLoading) {
-    return <div className="App">Loading...</div>;
+    return <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
 
   return (
-    <div className="hike-map-container">
+    <div className="hike-map-container container">
       <h1>Hike</h1>
         <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
           <TileLayer

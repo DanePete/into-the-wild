@@ -41,8 +41,9 @@ Grid
 }
 
 .container-fluid {
-  margin-left: 0px;
-  margin-right: 0px;
+  padding-left: 0px;
+  margin-top: 25px;
+  padding-right: 0px;
 }
 
 .grid-col {

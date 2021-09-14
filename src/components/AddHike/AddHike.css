@@ -9,3 +9,13 @@
   padding: 15px;
   display: flex;
 }
+
+.add-hike-form-container {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+}
+
+.add-hike-global-container {
+  padding: 15px;
+}
