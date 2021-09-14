@@ -83,6 +83,27 @@ export default function AddHike(latLng) {
   return (
     <>
     <h1>ADD HIKE</h1>
+    <div className="add-hike-form-container">
+      <input
+        onChange={event => setInput('name', event.target.value)}
+        className="form-control"
+        value={formState.name}
+        placeholder="Name"
+      />
+      
+      <textarea
+        onChange={event => setInput('description', event.target.value)}
+        className="form-control"
+        value={formState.description}
+        placeholder="Description"
+      />
+
+      <input
+        type="file"
+        className="form-control"
+        onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
+      />
+    </div>
     <MapContainer
       center={latLng.latLng}
       zoom={13}
@@ -94,27 +115,6 @@ export default function AddHike(latLng) {
       />
       <LocationMarker />
     </MapContainer>
-
-    <input
-      onChange={event => setInput('name', event.target.value)}
-      className="form-control"
-      value={formState.name}
-      placeholder="Name"
-    />
-    
-    <textarea
-      onChange={event => setInput('description', event.target.value)}
-      className="form-control"
-      value={formState.description}
-      placeholder="Description"
-    />
-
-    <input
-      type="file"
-      className="form-control"
-      onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
-    />
-
     <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
     </>
   );

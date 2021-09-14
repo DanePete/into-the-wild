@@ -75,7 +75,6 @@ function Hikes() {
                   <div className="card-body">
                     <h5 className="card-title">{todo.name}</h5>
                     <p className="card-text">{todo.description}</p>
-                    <p className="card-text">{todo.mapdata}</p>
                     <button
                     type="button"
                     className="btn btn-primary btn_asLink"

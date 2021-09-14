@@ -2,3 +2,10 @@
 .leaflet-container {
   height: 500px !important;
 }
+
+.add-hike-container {
+  margin: 15px;
+  background: white;
+  padding: 15px;
+  display: flex;
+}
