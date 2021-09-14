@@ -17,3 +17,8 @@ amplify-s3-image {
   --height: 200px;
   --width: 400px;
 }
+
+.hike-card, .hike-card img {
+  width: 18rem;
+}
+

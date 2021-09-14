@@ -65,26 +65,31 @@ function Hikes() {
         </button>
 
       {/* TODO MAP */}
-      <div className="d-flex">
-        {
-          hikes.map((todo, index) => (
-          <div key={todo.id ? todo.id : index} className="card hike-card">
-            <AmplifyS3Image imgKey={todo.image} />
-            <div className="card-body">
-              <h5 className="card-title">{todo.name}</h5>
-              <p className="card-text">{todo.description}</p>
-              <p className="card-text">{todo.mapdata}</p>
-              <button
-                type="button"
-                className="btn btn-primary btn_asLink"
-                onClick={() => hikeClick(todo.id)}
-              >
-              View Hikes
-              </button>
-            </div>
-          </div>
-          ))
-        }
+      <div className="container mt-4">
+        <div className="row">
+          {
+            hikes.map((todo, index) => (
+              <div className="col-auto mb-3">
+                <div key={todo.id ? todo.id : index} className="card hike-card">
+                  <AmplifyS3Image imgKey={todo.image} />
+                  <div className="card-body">
+                    <h5 className="card-title">{todo.name}</h5>
+                    <p className="card-text">{todo.description}</p>
+                    <p className="card-text">{todo.mapdata}</p>
+                    <button
+                    type="button"
+                    className="btn btn-primary btn_asLink"
+                    onClick={() => hikeClick(todo.id)}
+                    >
+                    View Hikes
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            ))
+          }
+        </div>
       </div>
     </div>
   );

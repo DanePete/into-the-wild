@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import './Nav.css';
 import { Auth } from 'aws-amplify';
 import logo from '../Nav/hike.jpg'
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faGem } from '@fortawesome/free-solid-svg-icons';
@@ -33,73 +33,37 @@ function Nav() {
   }
 
   return (
-
-    
-    <div className="nav">
-
-      {/* <ProSidebar>
-        <Menu iconShape="square">
-          <MenuItem >Dashboard</MenuItem>
-          <SubMenu title="Components">
-            <MenuItem>Component 1</MenuItem>
-            <MenuItem>Component 2</MenuItem>
-          </SubMenu>
-        </Menu>
-      </ProSidebar> */}
-      <img className="logo" src={logo}></img>
-       {/* Home Nav Link */}
-      <Link to="/home">
-        <h2 className="nav-title"></h2>
-      </Link>
-      
-      <div>
-        {/* If no user is logged in, show these links */}
-        {!user &&
-          // If there's no user, show login/registration links
-          <Link className="navLink" to="/login">
-            Login / Register
-          </Link>
-        }
-
-        {/* If a user is logged in, show these links */}
-        {user && (
-          <>
-            <Link className="navLink" to="/home">
-              Home
-            </Link>
-
-            <Link className="navLink" to="/hikes">
-              Discover Hikes
-            </Link>
-
-            {/* <LogOutButton className="navLink" /> */}
-          </>
-        )}
-
-        <Link className="navLink" to="/about">
-          About
-        </Link>    
-      </div>
-      {
-        user.username &&
-      (
-        <>
-        <Link className="navLink" to="/profile">
-          Profile
+    <ProSidebar>
+    <SidebarHeader>
+      <h5>Into The Wild</h5>
+    </SidebarHeader>
+    <Menu iconShape="square">
+      {/* <SubMenu title="Components"> */}
+        <MenuItem>
+          Home
+          <Link to="/home">
         </Link>
-          <button
-          type="button"
-          className="btn btn-warning btn_asLink"
-          onClick={() => {
-            handleLogout()
-          }}
-        >
-          LOGOUT
-        </button>
-        </>
-      )}
-
-    </div>
+        </MenuItem>
+        <MenuItem>
+          Hikes
+          <Link to="/hikes">
+        </Link>
+        </MenuItem>
+        <MenuItem>
+          About
+        <Link to="/about">
+        </Link>    
+        </MenuItem>
+        <MenuItem>
+          Profile
+        <Link to="/profile">
+        </Link>    
+        </MenuItem>
+        
+      {/* </SubMenu> */}
+    </Menu>
+  </ProSidebar>
+    
   );
 }
 
