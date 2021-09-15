@@ -13,6 +13,7 @@ const position = [51.505, -0.09]
  */
 function Hike() {
   const [hike, setHike] = useState()
+  const [hikeDetail, setHikeDetail] = useState();
   const [isLoading, setLoading] = useState(true);
   const { id } = useParams();
   
@@ -20,6 +21,7 @@ function Hike() {
     try {
       const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
       setHike(JSON.parse(hikeCall.data.getHikes.mapdata))
+      setHikeDetail(hikeCall.data.getHikes);
       setLoading(false);
     } catch (err) { console.log('error fetching todos') }
   }
@@ -31,6 +33,8 @@ function Hike() {
   if (isLoading) {
     return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
+
+  console.log('hike detail', hikeDetail);
 
   return (
     <div className="hike-map-container">
@@ -58,12 +62,12 @@ function Hike() {
         </MapContainer>
         <section class="py-5 bg-gray-100 shadow">
           <div class="container">
-            <h1>New York</h1>
-            <p class="lead mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
-            <h5>City Quarters</h5>
+            <h1>{hikeDetail.name}</h1>
+            <p class="lead mb-5">{hikeDetail.description}</p>
+            <h5>Hike Detail</h5>
             <ul class="nav-pills-custom nav">
-              <li class="nav-item"><a href="#" class="active nav-link">Mount Vernon</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Johnstown</a></li>
+              <li class="nav-item"><a href="#" class="active nav-link">Difficulty: </a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Weather: </a></li>
               <li class="nav-item"><a href="#" class="nav-link">Jamestown</a></li>
               <li class="nav-item"><a href="#" class="nav-link">Hudson</a></li>
               <li class="nav-item"><a href="#" class="nav-link">Kingston</a></li>
