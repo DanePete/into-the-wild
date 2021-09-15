@@ -8,8 +8,8 @@ import React from 'react';
 function AboutPage() {
   return (
     <div className="container">
-      <div>
-        <p>
+      <div className="row">
+        <p className="lead mb-5">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a lorem a risus aliquam rhoncus id vel nulla. Fusce dictum dolor eros, a aliquam erat congue dapibus. Fusce eu nibh elementum, volutpat sem in, maximus mi. Aenean sit amet dolor pharetra, cursus neque nec, mattis ligula. Fusce in arcu at lacus sodales elementum. Phasellus volutpat lorem mi, in laoreet dui pretium sit amet. Curabitur a urna et nunc malesuada posuere. Sed in erat in nunc tincidunt ullamcorper ut imperdiet enim. Sed nunc justo, consectetur sed vulputate a, venenatis ac justo. Ut mi elit, dictum eget odio et, congue lacinia sem. Praesent laoreet ex scelerisque lacus egestas, ornare dictum leo fermentum. In laoreet augue at tincidunt tempus. Nam quis molestie mauris.
 
             Nunc id dolor at orci semper molestie. Aliquam tincidunt, diam sit amet ultrices malesuada, felis magna volutpat dui, fermentum tempor tellus lorem eget tellus. Nunc id urna dui. Mauris porta risus a nisi lobortis, id rhoncus augue tristique. Sed tristique aliquam nulla, at posuere felis fringilla ac. Cras lobortis sollicitudin ex nec cursus. Ut cursus ex quam, eget bibendum nibh faucibus et. Sed vel sollicitudin est.

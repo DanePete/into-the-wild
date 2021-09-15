@@ -28,6 +28,14 @@
   background: none;
 }
 
+.difficulty-num {
+  background: #253fe0;
+  padding: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 11px;
+}
+
 .lds-roller {
   position: absolute;
   top: 50%;
