@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import * as mutations from '../../graphql/mutations'
+import moment from 'moment';
 
 /**
  * Hike Component
@@ -82,8 +83,8 @@ function Admin() {
               <td>{hike.name}</td>
               <td>{hike.description}</td>
               <td>{hike.owner}</td>
-              <td>{hike.createdAt}</td>
-              <td>{hike.updatedAt}</td>
+              <td>{moment(hike.createdAt).format('MM-DD-YYYY h:ma')}</td>
+              <td>{moment(hike.updatedAt).format('MM-DD-YYYY h:ma')}</td>  {/*moment(row.dob).format("YYYY/MM/DD") */}
               <td>
                 <button className="btn btn-primary" onClick={() => editClick(hike.id)}>
                   EDIT
