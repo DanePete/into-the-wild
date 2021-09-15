@@ -173,8 +173,13 @@ export default function EditHike(latLng) {
           placeholder="City"
         />
 
-        <select className="form-control">
-        <option value="NA">State...</option>
+        <select 
+          className="form-control"
+          onChange={event => setInput('state', event.target.value)}
+          value={formState.state}
+          placeholder="state"
+        >
+          <option value="" selected disabled hidden>Choose here</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
