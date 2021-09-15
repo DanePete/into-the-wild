@@ -5,9 +5,36 @@
 
 amplify-s3-image {
   --width: 100%;
+  cursor: pointer;
+}
+
+.hike-title {
+  cursor: pointer;
 }
 
 .hike-card, .hike-card img {
   width: 18rem;
 }
 
+.card {
+  position: relative;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: vertical;
+  -moz-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .4rem;
+}
+
+.text-sm {
+  font-size: .875rem;
+}

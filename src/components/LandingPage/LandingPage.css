@@ -21,7 +21,27 @@ Grid
   background-image: url("hike.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh
+  height: 100%;
+}
+
+.landing-btn {
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  /* font-weight: 700; */
+  width: 45%;
+}
+
+.letter-spacing-3 {
+  letter-spacing: .3em;
+}
+
+.label-heading, .subtitle {
+  text-transform: uppercase;
+  color: #868e96;
+}
+
+.font-weight-light {
+  font-weight: 300!important;
 }
 
 .grid {

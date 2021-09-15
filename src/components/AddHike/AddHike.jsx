@@ -14,8 +14,10 @@ import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
-const initialState = { name: '', city: '', state: '', description: '', mapdata: '', image: ''}
+import {Editor, EditorState} from 'draft-js';
+import 'draft-js/dist/Draft.css';
 
+const initialState = { name: '', city: '', state: '', description: '', mapdata: '', difficulty: 0, image: ''}
 
 export default function AddHike(latLng) {
   const [file, setFile] = useState();
@@ -25,6 +27,10 @@ export default function AddHike(latLng) {
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
   const [hikes, setHikes] = useState([])
+
+  const [editorState, setEditorState] = React.useState(
+    () => EditorState.createEmpty(),
+  );
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
@@ -96,8 +102,6 @@ export default function AddHike(latLng) {
     })
   }
 
-  console.log('formstate', formState);
-
   return (
     <div className="container-hike-form">
       <div className="add-hike-global-container container card">
@@ -122,13 +126,6 @@ export default function AddHike(latLng) {
           placeholder="Name"
         />
         
-        <textarea
-          onChange={event => setInput('description', event.target.value)}
-          className="form-control"
-          value={formState.description}
-          placeholder="Description"
-        />
-
         <input
           onChange={event => setInput('city', event.target.value)}
           className="form-control"
@@ -142,7 +139,7 @@ export default function AddHike(latLng) {
           value={formState.state}
           placeholder="state"
         >
-          <option value="" selected disabled hidden>Choose here</option>
+          <option value="" selected disabled hidden>State</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
@@ -196,19 +193,32 @@ export default function AddHike(latLng) {
           <option value="WY">Wyoming</option>
         </select>				
 
-        {/* <input
-          type="file"
+
+        <select 
           className="form-control"
-          onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
-        /> */}
+          onChange={event => setInput('difficulty', event.target.value)}
+          value={formState.difficulty}
+          placeholder="difficulty"
+        >
+          <option value="" selected disabled hidden>Difficulty</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>		        
       </div>
 
       <div className="hike-images">
-        <input
-          type="file"
+        <textarea
+          onChange={event => setInput('description', event.target.value)}
           className="form-control"
-          onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
+          value={formState.description}
+          placeholder="Description"
         />
+
+
+      <Editor editorState={editorState} onChange={setEditorState} />
       </div>
       
       <MapContainer

@@ -42,6 +42,12 @@ function Hikes() {
 
   return (
     <div className="container hike-list">
+
+      <section className="hero py-6 py-lg-7 text-white dark-overlay">
+        <div className="display: block; overflow: hidden; position: absolute; inset: 0px; box-sizing: border-box; margin: 0px;">
+          
+        </div>
+      </section>
       <h1>Discover Hike</h1>
 
       <button
@@ -65,23 +71,22 @@ function Hikes() {
         </button>
 
       {/* TODO MAP */}
-      <div className="mt-4">
+      <div className="col-lg-9">
         <div className="row">
           {
             hikes.map((todo, index) => (
-              <div className="col-auto mb-3">
-                <div key={todo.id ? todo.id : index} className="card hike-card">
-                  <AmplifyS3Image imgKey={todo.image} />
-                  <div className="card-body">
-                    <h5 className="card-title">{todo.name}</h5>
-                    <p className="card-text">{todo.description}</p>
-                    <button
-                    type="button"
-                    className="btn btn-primary btn_asLink"
+              <div className="mb-5 hover-animate col-sm-6 col-xl-4">
+                <div key={todo.id ? todo.id : index} className="card hike-card h-100 border-0 shadow card">
+                  <AmplifyS3Image imgKey={todo.image} 
                     onClick={() => hikeClick(todo.id)}
+                  />
+                  <div className="card-body">
+                    <h6 className="card-title hike-title"
+                      onClick={() => hikeClick(todo.id)}
                     >
-                    View Hikes
-                    </button>
+                      {todo.name}
+                    </h6>
+                    <p className="flex-grow-1 mb-0 text-muted text-sm">{todo.description}</p>
                   </div>
                 </div>
               </div>

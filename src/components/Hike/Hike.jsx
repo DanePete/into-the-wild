@@ -4,7 +4,9 @@ import { withAuthenticator } from '@aws-amplify/ui-react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { useParams } from 'react-router-dom';
 import { getHikes } from '../../graphql/queries'
+import { useHistory } from 'react-router-dom';
 import{ API, graphqlOperation } from 'aws-amplify'
+
 const position = [51.505, -0.09]
 /**
  * Hike Component
@@ -12,6 +14,7 @@ const position = [51.505, -0.09]
  * Move to local state -- TODO
  */
 function Hike() {
+  const history = useHistory();
   const [hike, setHike] = useState()
   const [hikeDetail, setHikeDetail] = useState();
   const [isLoading, setLoading] = useState(true);
@@ -38,6 +41,10 @@ function Hike() {
 
   return (
     <div className="hike-map-container">
+
+        <button onClick={history.goBack}>
+          Back
+        </button>
         <MapContainer center={hike[0]} zoom={16} scrollWheelZoom={false}>
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -66,7 +73,7 @@ function Hike() {
             <p class="lead mb-5">{hikeDetail.description}</p>
             <h5>Hike Detail</h5>
             <ul class="nav-pills-custom nav">
-              <li class="nav-item"><a href="#" class="active nav-link">Difficulty: </a></li>
+              <li class="nav-item"><a href="#" class="active nav-link">Difficulty: {hikeDetail.difficulty}</a></li>
               <li class="nav-item"><a href="#" class="nav-link">Weather: </a></li>
               <li class="nav-item"><a href="#" class="nav-link">Jamestown</a></li>
               <li class="nav-item"><a href="#" class="nav-link">Hudson</a></li>
