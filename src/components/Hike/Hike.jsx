@@ -81,14 +81,12 @@ function Hike() {
             <h5>Hike Detail</h5>
             <ul class="nav-pills-custom nav">
               <li class="nav-item"><a href="#" class="active nav-link">Difficulty: <span className="difficulty-num">{hikeDetail.difficulty}</span></a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Weather: </a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Jamestown</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Hudson</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Kingston</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">city: {hikeDetail.city}</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">State: {hikeDetail.state}</a></li>
             </ul>
           </div>
         </section>
-        <section class="py-5 bg-gray-100 shadow">
+        <section class="py-5">
           <div class="container">
             <h1>Weather near this location</h1>
             <h5>Forecast for the next 5 days</h5>

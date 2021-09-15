@@ -24,6 +24,10 @@
   background: #4e66f8;
 }
 
+.weather-card, .weather-card img {
+  width: 13rem;
+} 
+
 .nav-pills-custom {
   background: none;
 }

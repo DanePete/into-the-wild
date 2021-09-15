@@ -24,7 +24,7 @@ const WeatherCard = ({dt, temp_min, temp_max, main, icon}) => {
     //   </Card.Body>
     // </Card>
 
-    <div className="card hike-card h-100 border-0 shadow card">
+    <div className="card weather-card h-100 border-0 shadow card">
       <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} />
       <div className="card-body">
         <div className="card-title">{main}</div>
