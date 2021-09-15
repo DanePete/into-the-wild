@@ -5,6 +5,7 @@ import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { AmplifyS3Image } from '@aws-amplify/ui-react';
+import PageHeader from '../PageHeader/PageHeader';
 
 /**
  * Hike Component
@@ -41,8 +42,10 @@ function Hikes() {
   })
 
   return (
-    <div className="container hike-list">
-
+    
+    <div className="container-fluid">
+         <PageHeader />
+      <div className="container hike-list">
       <section className="hero py-6 py-lg-7 text-white dark-overlay">
         <div className="display: block; overflow: hidden; position: absolute; inset: 0px; box-sizing: border-box; margin: 0px;">
           
@@ -95,6 +98,7 @@ function Hikes() {
           }
         </div>
       </div>
+    </div>
     </div>
   );
 }
