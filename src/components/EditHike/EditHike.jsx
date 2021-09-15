@@ -12,11 +12,11 @@ import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "../../constants";
-import { createHikes } from '../../graphql/mutations';
+import { createHikes, updateHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
 import { getHikes } from '../../graphql/queries'
 import { useParams } from 'react-router-dom';
-const initialState = { name: '', city: '', state: '', description: '', mapdata: '', image: ''}
+const initialState = { id: '', name: '', city: '', state: '', description: '', mapdata: '', image: ''}
 
 
 export default function EditHike(latLng) {
@@ -74,7 +74,7 @@ export default function EditHike(latLng) {
     try {
       const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
       setHike(JSON.parse(hikeCall.data.getHikes.mapdata))
-      setFormState({ name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: '', image: ''})
+      setFormState({ id: hikeCall.data.getHikes.id, name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: '', image: ''})
       setLoading(false);
     } catch (err) { console.log('error fetching todos') }
   }
@@ -95,9 +95,9 @@ export default function EditHike(latLng) {
     try {
       if (formState.name && formState.description && formState.mapdata)  {
       const todo = { ...formState }
+      console.log('todos', todo);
       setHikes([...hikes, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createHikes, {input: todo}))
+      await API.graphql(graphqlOperation(updateHikes, {input: todo}))
       await Storage.put(file.name, file, {
         level: 'public',
         type: 'image/png'
@@ -108,7 +108,8 @@ export default function EditHike(latLng) {
         },
       })
       
-      // Insert predictions code here later
+      // Insert predictions code here later'
+      setFormState(initialState)
       setUploaded(true)
       history.push("/hikes");
     } else {
