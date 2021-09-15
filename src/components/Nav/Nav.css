@@ -52,3 +52,9 @@
 .pro-sidebar-header {
   text-align: center;
 }
+
+.pro-sidebar-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

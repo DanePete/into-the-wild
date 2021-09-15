@@ -8,6 +8,7 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faGem } from '@fortawesome/free-solid-svg-icons';
 import img from '../../assets/logo.png'
+import { AmplifySignOut } from '@aws-amplify/ui-react';
 
 function Nav() {
   const history = useHistory();
@@ -64,6 +65,9 @@ function Nav() {
         
       {/* </SubMenu> */}
     </Menu>
+    <SidebarFooter>
+      <AmplifySignOut />
+    </SidebarFooter>
   </ProSidebar>
     
   );

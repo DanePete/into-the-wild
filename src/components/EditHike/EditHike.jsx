@@ -42,27 +42,7 @@ export default function EditHike(latLng) {
     setFormState({ ...formState, [key]: value })
   }
 
-  /**
-   * Location Marker
-   * Allows users to add pins to the map
-   */
-  function LocationMarker() {
-    const [position, setPosition] = useState(null)
-    const map = useMapEvents({
-      click(e) {
-        const { lat, lng } = e.latlng;
-        L.marker([lat, lng], { icon }).addTo(map)
-        setItems([...items, {lat,lng}])
-        setInput('mapdata', JSON.stringify(items))
-      }
-    })
-  
-    return position === null ? null : (
-      <Marker position={position}>
-        <Popup>You are here</Popup>
-      </Marker>
-    )
-  }
+
 
 
 
@@ -74,7 +54,7 @@ export default function EditHike(latLng) {
     try {
       const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
       setHike(JSON.parse(hikeCall.data.getHikes.mapdata))
-      setFormState({ id: hikeCall.data.getHikes.id, name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: '', image: ''})
+      setFormState({ id: hikeCall.data.getHikes.id, name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: hikeCall.data.getHikes.mapdata, image: ''})
       setLoading(false);
     } catch (err) { console.log('error fetching todos') }
   }
@@ -86,7 +66,31 @@ export default function EditHike(latLng) {
 
 
 
-  console.log('formstate', formState);
+  console.log('formstate', formState.mapdata);
+
+
+    /**
+   * Location Marker
+   * Allows users to add pins to the map
+   */
+     function LocationMarker() {
+      const [position, setPosition] = useState(null)
+      const map = useMapEvents({
+        
+        click(e) {
+          const { lat, lng } = e.latlng;
+          L.marker([lat, lng], { icon }).addTo(map)
+          setItems([...items, {lat,lng}])
+          setInput('mapdata', JSON.stringify(items))
+        }
+      })
+    
+      return position === null ? null : (
+        <Marker position={position}>
+          <Popup>You are here</Popup>
+        </Marker>
+      )
+    }
 
   /**
    * Add HIKE
