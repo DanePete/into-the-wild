@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
-import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
+import { API, graphqlOperation, Storage } from 'aws-amplify'
 const initialState = { name: '', city: '', state: '', description: '', mapdata: '', image: ''}
 
 

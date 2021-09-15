@@ -18,6 +18,12 @@
 body {
   color: #2C2C2C;
   background: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.shadow {
+  -webkit-box-shadow: 0 0 1rem rgba(0,0,0,.15)!important;
+  box-shadow: 0 0 1rem rgba(0,0,0,.15)!important;
 }
 
 /* .main {

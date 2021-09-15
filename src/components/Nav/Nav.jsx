@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import './Nav.css';
 import { Auth } from 'aws-amplify';
-import logo from '../Nav/hike.jpg'
-import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { faGem } from '@fortawesome/free-solid-svg-icons';
 import img from '../../assets/logo.png'
 import { AmplifySignOut } from '@aws-amplify/ui-react';
 

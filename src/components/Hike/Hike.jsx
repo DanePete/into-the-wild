@@ -33,8 +33,7 @@ function Hike() {
   }
 
   return (
-    <div className="hike-map-container container">
-      <h1>Hike</h1>
+    <div className="hike-map-container">
         <MapContainer center={hike[0]} zoom={16} scrollWheelZoom={false}>
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -57,6 +56,9 @@ function Hike() {
             );
           })}
         </MapContainer>
+
+        <section class="py-5 bg-gray-100 shadow"><div class="container"><h1>New York</h1><p class="lead mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p><h5>City Quarters</h5><ul class="nav-pills-custom nav"><li class="nav-item"><a href="#" class="active nav-link">Mount Vernon</a></li><li class="nav-item"><a href="#" class="nav-link">Johnstown</a></li><li class="nav-item"><a href="#" class="nav-link">Jamestown</a></li><li class="nav-item"><a href="#" class="nav-link">Hudson</a></li><li class="nav-item"><a href="#" class="nav-link">Kingston</a></li></ul></div></section>
+
     </div>
   );
 }
