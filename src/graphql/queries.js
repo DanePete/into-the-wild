@@ -10,6 +10,7 @@ export const getHikes = /* GraphQL */ `
       city
       state
       image
+      difficulty
       like
       mapdata
       createdAt
@@ -32,6 +33,7 @@ export const listHikes = /* GraphQL */ `
         city
         state
         image
+        difficulty
         like
         mapdata
         createdAt

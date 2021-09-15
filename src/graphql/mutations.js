@@ -13,6 +13,7 @@ export const createHikes = /* GraphQL */ `
       city
       state
       image
+      difficulty
       like
       mapdata
       createdAt
@@ -33,6 +34,7 @@ export const updateHikes = /* GraphQL */ `
       city
       state
       image
+      difficulty
       like
       mapdata
       createdAt
@@ -53,6 +55,7 @@ export const deleteHikes = /* GraphQL */ `
       city
       state
       image
+      difficulty
       like
       mapdata
       createdAt
