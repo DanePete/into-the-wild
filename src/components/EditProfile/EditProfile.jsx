@@ -1,12 +1,12 @@
 import React from 'react';
-import './Profile.css';
+import './EditProfile.css';
 
 // This is one of our simplest components
 // It doesn't have local state,
 // It doesn't dispatch any redux actions or display any part of redux state
 // or even care what the redux state is'
 
-function Profile() {
+function EditProfile() {
   return (
     <div className="container">
       <h1 className="hero-heading mb-0">Your Account</h1>
@@ -32,4 +32,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default EditProfile;

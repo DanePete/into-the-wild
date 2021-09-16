@@ -25,6 +25,8 @@ import HikesMap from './components/HikesMap/HikesMap'
 import Map from './components/Map/Map'
 import EditHike from './components/EditHike/EditHike'
 import YourAccount from './components/YourAccount/YourAccount'
+import Profile from './components/Profile/Profile';
+import EditProfile from './components/EditProfile/EditProfile';
 
 
 Amplify.configure(awsExports);
@@ -142,6 +144,19 @@ function App() {
               <YourAccount /> 
             </Route>
 
+            <Route
+              exact
+              path="/profile"
+            >
+              <Profile /> 
+            </Route>
+
+            <Route
+              exact
+              path="/edit-profile"
+            >
+              <EditProfile /> 
+            </Route>
 
             {/* If none of the other routes matched, we will show a 404. */}
             <Route>
