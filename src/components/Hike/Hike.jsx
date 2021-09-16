@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './Hike.css';
 import { withAuthenticator } from '@aws-amplify/ui-react'
-import { Map, TileLayer, Polyline} from 'react-leaflet'
+import { Map, TileLayer, Polyline, Marker} from 'react-leaflet'
 import { useParams } from 'react-router-dom';
 import { getHikes } from '../../graphql/queries'
 import { useHistory } from 'react-router-dom';
 import{ API, graphqlOperation } from 'aws-amplify'
 import WeatherList from '../WeatherList/WeatherList';
-// import { Polyline } from 'leaflet';
 
 const position = [51.505, -0.09]
 /**
@@ -62,7 +61,7 @@ function Hike() {
         <button onClick={history.goBack}>
           Back
         </button>
-        <Map center={hike[0]} zoom={16} scrollWheelZoom={false}>
+        <Map bounds={polylines} center={hike[0]} zoom={16} scrollWheelZoom={false}>
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -77,6 +76,19 @@ function Hike() {
           <Polyline 
             positions={polylines}
           />
+
+          {polylines?.map(data => {
+          // let array = [Number(data.lat), Number(data.lng)]
+          console.log('polly array', data);
+          return (
+            // <>
+            // </>
+            // <Marker 
+          <Marker 
+            position={data}
+          />
+          );
+          })}
 
         </Map>
         <section className="py-5 bg-gray-100 shadow">
