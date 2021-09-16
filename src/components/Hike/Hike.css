@@ -1,11 +1,25 @@
 .hike-map-container {
   background: white;
   margin: 0 auto;
-  height: auto !important;
+  height: 600px;
 }
 
+
 .leaflet-container {
-  height: 450px !important;
+  height: 600px !important;
+}
+
+.map-popup-forged {
+  width: 600px;
+  height: 300px;
+}
+
+.leaflet-popup-content .leaflet-container {
+  height: 300px !important;
+}
+
+.leaflet-popup-content {
+  width: 95% !important;
 }
 
 .bg-gray-100 {

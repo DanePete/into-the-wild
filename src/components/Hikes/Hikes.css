@@ -1,7 +1,4 @@
 
-.leaflet-container {
-  height: 500px !important;
-}
 
 amplify-s3-image {
   --width: 100%;

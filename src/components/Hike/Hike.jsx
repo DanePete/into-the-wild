@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import './Hike.css';
 import { withAuthenticator } from '@aws-amplify/ui-react'
-import { Map, TileLayer, Polyline, Marker} from 'react-leaflet'
+import { Map, TileLayer, Polyline, Marker, withLeaflet, Popup} from 'react-leaflet'
 import { useParams } from 'react-router-dom';
 import { getHikes } from '../../graphql/queries'
 import { useHistory } from 'react-router-dom';
 import{ API, graphqlOperation } from 'aws-amplify'
 import WeatherList from '../WeatherList/WeatherList';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import L, { map } from 'leaflet';
+import MeasureControlDefault from 'react-leaflet-measure';
 
+import 'leaflet/dist/leaflet.css';
 const position = [51.505, -0.09]
+const MeasureControl = withLeaflet(MeasureControlDefault);
 /**
  * Hike Component
  * App.js retrieves user location and passes the lat/long via props to the map component
@@ -26,6 +32,26 @@ function Hike() {
 
   const { id } = useParams();
   let convertObjectArray = [];
+
+  // LEAFLET MARKER BUG FIX LEAFLET BUG - issue in the version of leaflet currently used not able to access assets
+    let DefaultIcon = L.icon({
+      iconUrl: icon,
+      shadowUrl: iconShadow
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
+  // LEAFLET MARKER BUG FIX LEAFLET BUG - END
+  
+  const measureOptions = {
+    position: 'topright',
+    primaryLengthUnit: 'meters',
+    secondaryLengthUnit: 'M',
+    primaryAreaUnit: 'sqmeters',
+    secondaryAreaUnit: 'acres',
+    activeColor: '#db4a29',
+    completedColor: '#9b2d14'
+  };
+      
   
   async function fetchHike() {
     try {
@@ -54,6 +80,88 @@ function Hike() {
   if (isLoading && weatherIsLoading) {
     return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
+
+  console.log('polylines', polylines);
+  // polylines.forEach(data => {
+  //   console.log(data);
+  // });
+
+  let options = {
+    position: 'topleft',            // Position to show the control. Values: 'topright', 'topleft', 'bottomright', 'bottomleft'
+    unit: 'metres',                 // Show imperial or metric distances. Values: 'metres', 'landmiles', 'nauticalmiles'
+    clearMeasurementsOnStop: true,  // Clear all the measurements when the control is unselected
+    showBearings: false,            // Whether bearings are displayed within the tooltips
+    bearingTextIn: 'In',             // language dependend label for inbound bearings
+    bearingTextOut: 'Out',          // language dependend label for outbound bearings
+    tooltipTextFinish: 'Click to <b>finish line</b><br>',
+    tooltipTextDelete: 'Press SHIFT-key and click to <b>delete point</b>',
+    tooltipTextMove: 'Click and drag to <b>move point</b><br>',
+    tooltipTextResume: '<br>Press CTRL-key and click to <b>resume line</b>',
+    tooltipTextAdd: 'Press CTRL-key and click to <b>add point</b>',
+                                    // language dependend labels for point's tooltips
+    measureControlTitleOn: 'Turn on PolylineMeasure',   // Title for the control going to be switched on
+    measureControlTitleOff: 'Turn off PolylineMeasure', // Title for the control going to be switched off
+    measureControlLabel: '&#8614;', // Label of the Measure control (maybe a unicode symbol)
+    measureControlClasses: [],      // Classes to apply to the Measure control
+    showClearControl: false,        // Show a control to clear all the measurements
+    clearControlTitle: 'Clear Measurements', // Title text to show on the clear measurements control button
+    clearControlLabel: '&times',    // Label of the Clear control (maybe a unicode symbol)
+    clearControlClasses: [],        // Classes to apply to clear control button
+    showUnitControl: false,         // Show a control to change the units of measurements
+    distanceShowSameUnit: false,    // Keep same unit in tooltips in case of distance less then 1 km/mi/nm
+    unitControlTitle: {             // Title texts to show on the Unit Control button
+        text: 'Change Units',
+        metres: 'metres',
+        landmiles: 'land miles',
+        nauticalmiles: 'nautical miles'
+    },
+    unitControlLabel: {             // Unit symbols to show in the Unit Control button and measurement labels
+        metres: 'm',
+        kilometres: 'km',
+        feet: 'ft',
+        landmiles: 'mi',
+        nauticalmiles: 'nm'
+    },
+    tempLine: {                     // Styling settings for the temporary dashed line
+        color: '#00f',              // Dashed line color
+        weight: 2                   // Dashed line weight
+    },          
+    fixedLine: {                    // Styling for the solid line
+        color: '#006',              // Solid line color
+        weight: 2                   // Solid line weight
+    },
+    startCircle: {                  // Style settings for circle marker indicating the starting point of the polyline
+        color: '#000',              // Color of the border of the circle
+        weight: 1,                  // Weight of the circle
+        fillColor: '#0f0',          // Fill color of the circle
+        fillOpacity: 1,             // Fill opacity of the circle
+        radius: 3                   // Radius of the circle
+    },
+    intermedCircle: {               // Style settings for all circle markers between startCircle and endCircle
+        color: '#000',              // Color of the border of the circle
+        weight: 1,                  // Weight of the circle
+        fillColor: '#ff0',          // Fill color of the circle
+        fillOpacity: 1,             // Fill opacity of the circle
+        radius: 3                   // Radius of the circle
+    },
+    currentCircle: {                // Style settings for circle marker indicating the latest point of the polyline during drawing a line
+        color: '#000',              // Color of the border of the circle
+        weight: 1,                  // Weight of the circle
+        fillColor: '#f0f',          // Fill color of the circle
+        fillOpacity: 1,             // Fill opacity of the circle
+        radius: 3                   // Radius of the circle
+    },
+    endCircle: {                    // Style settings for circle marker indicating the last point of the polyline
+        color: '#000',              // Color of the border of the circle
+        weight: 1,                  // Weight of the circle
+        fillColor: '#f00',          // Fill color of the circle
+        fillOpacity: 1,             // Fill opacity of the circle
+        radius: 3                   // Radius of the circle
+    },
+};
+
+    
+  // polylineMeasure.seed([51.505, -0.09])
 
   return (
     <div className="hike-map-container">
@@ -86,10 +194,38 @@ function Hike() {
             // <Marker 
           <Marker 
             position={data}
-          />
+          >
+            <Popup className="map-popup-forged">
+              {/* <section className="py-5">
+              <div className="container">
+              <h1>Weather near this location</h1>
+              <h5>Forecast for the next 5 days</h5>
+              {weather && <WeatherList weathers={weather.list} />}
+              </div>
+              </section> */}
+              <Map center={data}  zoom={16} scrollWheelZoom={false}>
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                />
+                <TileLayer
+                  url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+                />
+                <TileLayer
+                  url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+                />
+                <Marker 
+                  position={data}
+                ></Marker>
+              </Map>
+
+              <span>Lat: <i>{data}</i></span>
+            </Popup>
+          </Marker>
           );
           })}
 
+          <MeasureControl {...measureOptions}/>
         </Map>
         <section className="py-5 bg-gray-100 shadow">
           <div className="container">
