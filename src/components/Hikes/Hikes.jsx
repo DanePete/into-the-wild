@@ -54,28 +54,18 @@ function Hikes() {
           
         </div>
       </section>
-      <h1>Discover Hike</h1>
-
-      <button
-          type="button"
-          className="btn btn-primary btn_asLink"
-          onClick={() => {
-            history.push('/add');
-          }}
-        >
-          Add Your Own Hike
-        </button>
-
+      <div className="hike-btn">
         <button
-          type="button"
-          className="btn btn-primary btn_asLink"
-          onClick={() => {
-            history.push('/my-hikes');
-          }}
-        >
-         My Hikes
-        </button>
-
+            type="button"
+            className="btn btn-primary btn_asLink"
+            onClick={() => {
+              history.push('/add');
+            }}
+          >
+            Add A Hike
+          </button>
+      </div>
+      
       {/* TODO MAP */}
       <div className="col-lg-9">
         <div className="row">

@@ -23,6 +23,8 @@ export default function AddHike(latLng) {
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
   const [hikes, setHikes] = useState([])
+  const [userLocation, setUserLocation] = useState();
+  const [isLoading, setLoading] = useState(true);
 
   const [editorState, setEditorState] = React.useState(
     () => EditorState.createEmpty(),
@@ -31,8 +33,6 @@ export default function AddHike(latLng) {
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
-
-  console.log('mapdata yio', formState.mapdata);
 
   /**
    * Add HIKE
@@ -52,7 +52,6 @@ export default function AddHike(latLng) {
           },
         }
       )
-      
       setUploaded(true)
       history.push("/hikes");
     } else {
@@ -63,17 +62,17 @@ export default function AddHike(latLng) {
     }
   }
 
-  async function addPhoto() {
-    await Storage.put(file.name, file, {
-      level: 'public',
-      type: 'image/png'
-      }, {
-      progressCallBack(progress) {
-        console.log(progress);
-        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-      },
-    })
-  }
+  // async function addPhoto() {
+  //   await Storage.put(file.name, file, {
+  //     level: 'public',
+  //     type: 'image/png'
+  //     }, {
+  //     progressCallBack(progress) {
+  //       console.log(progress);
+  //       console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+  //     },
+  //   })
+  // }
 
   // LEAFTLET CONTROL CALLBACKS
   const _onCreated = (e) => {
@@ -81,6 +80,7 @@ export default function AddHike(latLng) {
 
     const { layerType, layer } = e;
     if (layerType === "polyline") {
+      
       const { _leaflet_id } = layer;
 
       setMapLayers((layers) => [
@@ -91,6 +91,21 @@ export default function AddHike(latLng) {
       setInput('mapdata', JSON.stringify({ id: _leaflet_id, latlngs: layer.getLatLngs() }));
     }
   };
+
+  var getPosition = function (options) {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  }
+
+  getPosition()
+  .then((position) => {
+    setUserLocation([position.coords.latitude, position.coords.longitude])
+    setLoading(false)
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });
 
   const _onEdited = (e) => {
     console.log(e);
@@ -127,6 +142,10 @@ export default function AddHike(latLng) {
       setMapLayers((layers) => layers.filter((l) => l.id !== _leaflet_id));
     });
   };
+
+  if (isLoading) {
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
+  }
 
   return (
     <div className="container-hike-form">
@@ -247,7 +266,7 @@ export default function AddHike(latLng) {
       <Editor editorState={editorState} onChange={setEditorState} />
       </div>
       <Map
-        center={[37.8189, -122.4786]}
+        center={userLocation}
         zoom={13}
         style={{ height: '100vh' }}>
         <TileLayer
