@@ -6,3 +6,7 @@
   background-size: cover;
   height: 400px;
 }
+
+.page-header-row {
+  padding: 50px;
+}

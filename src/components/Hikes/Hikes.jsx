@@ -44,7 +44,10 @@ function Hikes() {
   return (
     
     <div className="container-fluid">
-         <PageHeader />
+         <PageHeader 
+            title = "Hikes"
+            description = "INTO THE WILD"
+         />
       <div className="container hike-list">
       <section className="hero py-6 py-lg-7 text-white dark-overlay">
         <div className="display: block; overflow: hidden; position: absolute; inset: 0px; box-sizing: border-box; margin: 0px;">
