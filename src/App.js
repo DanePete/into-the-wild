@@ -24,6 +24,7 @@ import Admin from './components/Admin/Admin'
 import HikesMap from './components/HikesMap/HikesMap'
 import Map from './components/Map/Map'
 import EditHike from './components/EditHike/EditHike'
+import YourAccount from './components/YourAccount/YourAccount'
 
 
 Amplify.configure(awsExports);
@@ -132,6 +133,13 @@ function App() {
               path="/edit-hike/:id"
             >
               <EditHike /> 
+            </Route>
+
+            <Route
+              exact
+              path="/account"
+            >
+              <YourAccount /> 
             </Route>
 
 

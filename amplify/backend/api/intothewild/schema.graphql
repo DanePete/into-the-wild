@@ -1,3 +1,24 @@
+type User @model 
+@auth(
+    rules: [
+      { allow: public, operations: [read]},
+      { allow: owner },
+      {
+        allow: groups
+        groups: ["administrator"]
+        operations: [read, update, delete]
+      },
+      { allow: private, operations: [read] }
+    ]
+  ) 
+{
+  id: ID!
+  handle: String!
+  displayName: String
+  photoUrl: String
+}
+
+
 
 type Hikes @model 
 @auth(

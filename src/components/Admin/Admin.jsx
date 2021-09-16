@@ -28,7 +28,9 @@ function Admin() {
   console.log('user', user);
   async function checkAuthState() {
     try {
-      await Auth.currentAuthenticatedUser()
+      let user = await Auth.currentAuthenticatedUser();
+      user = user.attributes; 
+      console.log('user', user);
     } catch (err) {
       // props.history.push(route)
     }
