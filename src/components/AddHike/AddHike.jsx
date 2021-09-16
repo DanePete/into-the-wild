@@ -77,7 +77,7 @@ export default function AddHike(latLng) {
 
   // LEAFTLET CONTROL CALLBACKS
   const _onCreated = (e) => {
-    console.log(e);
+    console.log('e',e);
 
     const { layerType, layer } = e;
     if (layerType === "polyline") {
