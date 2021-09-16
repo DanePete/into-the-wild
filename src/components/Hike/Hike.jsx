@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Hike.css';
 import { withAuthenticator } from '@aws-amplify/ui-react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 import { useParams } from 'react-router-dom';
 import { getHikes } from '../../graphql/queries'
 import { useHistory } from 'react-router-dom';
@@ -52,7 +52,7 @@ function Hike() {
         <button onClick={history.goBack}>
           Back
         </button>
-        <MapContainer center={hike[0]} zoom={16} scrollWheelZoom={false}>
+        <Map center={hike[0]} zoom={16} scrollWheelZoom={false}>
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -73,7 +73,7 @@ function Hike() {
               </Marker>
             );
           })}
-        </MapContainer>
+        </Map>
         <section class="py-5 bg-gray-100 shadow">
           <div class="container">
             <h1>{hikeDetail.name}</h1>

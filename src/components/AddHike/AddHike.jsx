@@ -1,17 +1,10 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import './AddHike.css'
-import {
-  MapContainer,
-  TileLayer,
-  Popup,
-  useMapEvents,
-  Marker,
-  FeatureGroup
-} from "react-leaflet";
+import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import L, { Edit, featureGroup } from "leaflet";
 import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
@@ -25,6 +18,7 @@ export default function AddHike(latLng) {
   const [file, setFile] = useState();
   const [uploaded, setUploaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [mapLayers, setMapLayers] = useState([]);
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
@@ -38,27 +32,7 @@ export default function AddHike(latLng) {
     setFormState({ ...formState, [key]: value })
   }
 
-  /**
-   * Location Marker
-   * Allows users to add pins to the map
-   */
-  function LocationMarker() {
-    const [position, setPosition] = useState(null)
-    const map = useMapEvents({
-      click(e) {
-        const { lat, lng } = e.latlng;
-        L.marker([lat, lng], { icon }).addTo(map)
-        setItems([...items, {lat,lng}])
-        setInput('mapdata', JSON.stringify(items))
-      }
-    })
-  
-    return position === null ? null : (
-      <Marker position={position}>
-        <Popup>You are here</Popup>
-      </Marker>
-    )
-  }
+  console.log('mapdata yio', formState.mapdata);
 
   /**
    * Add HIKE
@@ -66,22 +40,19 @@ export default function AddHike(latLng) {
    async function addHike() {
     try {
       if (formState.name && formState.description && formState.mapdata)  {
-      const todo = { ...formState }
-      console.log('todo', todo);
-      // setHikes([...hikes, todo])
-      // setFormState(initialState)
-      await API.graphql(graphqlOperation(createHikes, {input: todo}))
-      await Storage.put(file.name, file, {
-        level: 'public',
-        type: 'image/png'
-        }, {
-        progressCallBack(progress) {
-          console.log(progress);
-          console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-        },
-      })
+        const todo = { ...formState }
+        await API.graphql(graphqlOperation(createHikes, {input: todo}))
+        await Storage.put(file.name, file, {
+          level: 'public',
+          type: 'image/png'
+          }, {
+          progressCallBack(progress) {
+            console.log(progress);
+            console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+          },
+        }
+      )
       
-      // Insert predictions code here later
       setUploaded(true)
       history.push("/hikes");
     } else {
@@ -104,6 +75,59 @@ export default function AddHike(latLng) {
     })
   }
 
+  // LEAFTLET CONTROL CALLBACKS
+  const _onCreated = (e) => {
+    console.log(e);
+
+    const { layerType, layer } = e;
+    if (layerType === "polyline") {
+      const { _leaflet_id } = layer;
+
+      setMapLayers((layers) => [
+        ...layers,
+        { id: _leaflet_id, latlngs: layer.getLatLngs() },
+      ]);
+
+      setInput('mapdata', JSON.stringify({ id: _leaflet_id, latlngs: layer.getLatLngs() }));
+    }
+  };
+
+  const _onEdited = (e) => {
+    console.log(e);
+    const {
+      layers: { _layers },
+    } = e;
+
+    Object.values(_layers).map(({ _leaflet_id, editing }) => {
+      setMapLayers((layers) =>
+        layers.map((l) =>
+          l.id === _leaflet_id
+            ? { ...l, latlngs: { ...editing.latlngs[0] } }
+            : l
+        )
+      );
+      setInput('mapdata', JSON.stringify(
+        (layers) =>
+        layers.map((l) =>
+          l.id === _leaflet_id
+            ? { ...l, latlngs: { ...editing.latlngs[0] } }
+            : l
+        )
+      ))
+    });
+  };
+
+  const _onDeleted = (e) => {
+    console.log(e);
+    const {
+      layers: { _layers },
+    } = e;
+
+    Object.values(_layers).map(({ _leaflet_id }) => {
+      setMapLayers((layers) => layers.filter((l) => l.id !== _leaflet_id));
+    });
+  };
+
   return (
     <div className="container-hike-form">
       <div className="add-hike-global-container container card">
@@ -114,8 +138,8 @@ export default function AddHike(latLng) {
         <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
         </div>
         
-        <div class="alert alert-success alert-dismissible">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <div className="alert alert-success alert-dismissible">
+    <a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Success!</strong> Indicates a successful or positive action.
     </div>
         
@@ -222,18 +246,32 @@ export default function AddHike(latLng) {
 
       <Editor editorState={editorState} onChange={setEditorState} />
       </div>
-      
-      <MapContainer
-        center={latLng.latLng}
+      <Map
+        center={[37.8189, -122.4786]}
         zoom={13}
-        style={{ height: "100vh" }}
-      >
+        style={{ height: '100vh' }}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker />
-      </MapContainer>
+        <TileLayer
+          url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+        />
+        <TileLayer
+          url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+        />
+        <FeatureGroup>
+          <EditControl
+            position='topright'
+            onEdited={_onEdited}
+            onCreated={_onCreated}
+            onDeleted={_onDeleted}
+          />
+        </FeatureGroup>
+      </Map>
+
+      <pre className="text-left">{JSON.stringify( mapLayers , 0, 2 )} </pre>
+
       <hr></hr>
       <button className="btn btn-primary" onClick={addHike}>Create Hike</button>
       </div>

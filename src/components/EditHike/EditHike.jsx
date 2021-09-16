@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import './EditHike.css'
 import {
-  MapContainer,
+  Map,
   TileLayer,
   Popup,
   useMapEvents,
@@ -42,14 +42,6 @@ export default function EditHike(latLng) {
     setFormState({ ...formState, [key]: value })
   }
 
-
-
-
-
-
-
-
-
   async function fetchHike() {
     try {
       const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
@@ -63,11 +55,7 @@ export default function EditHike(latLng) {
     fetchHike();
   }, []);
 
-
-
-
   console.log('formstate', formState.mapdata);
-
 
     /**
    * Location Marker
@@ -75,15 +63,15 @@ export default function EditHike(latLng) {
    */
      function LocationMarker() {
       const [position, setPosition] = useState(null)
-      const map = useMapEvents({
+      // const map = useMapEvents({
         
-        click(e) {
-          const { lat, lng } = e.latlng;
-          L.marker([lat, lng], { icon }).addTo(map)
-          setItems([...items, {lat,lng}])
-          setInput('mapdata', JSON.stringify(items))
-        }
-      })
+      //   click(e) {
+      //     const { lat, lng } = e.latlng;
+      //     L.marker([lat, lng], { icon }).addTo(map)
+      //     setItems([...items, {lat,lng}])
+      //     setInput('mapdata', JSON.stringify(items))
+      //   }
+      // })
     
       return position === null ? null : (
         <Marker position={position}>
@@ -253,7 +241,7 @@ export default function EditHike(latLng) {
         />
       </div>
       
-      <MapContainer
+      <Map
         center={latLng.latLng}
         zoom={13}
         style={{ height: "100vh" }}
@@ -263,7 +251,7 @@ export default function EditHike(latLng) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LocationMarker />
-      </MapContainer>
+      </Map>
       <hr></hr>
       <button className="btn btn-primary" onClick={addHike}>Save Edits</button>
       </div>
