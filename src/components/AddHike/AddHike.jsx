@@ -6,7 +6,8 @@ import {
   TileLayer,
   Popup,
   useMapEvents,
-  Marker
+  Marker,
+  FeatureGroup
 } from "react-leaflet";
 import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
@@ -16,6 +17,7 @@ import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
 import {Editor, EditorState} from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import { EditControl } from "react-leaflet-draw"
 
 const initialState = { name: '', city: '', state: '', description: '', mapdata: '', difficulty: 0, image: ''}
 

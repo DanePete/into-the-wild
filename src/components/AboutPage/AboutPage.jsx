@@ -1,4 +1,5 @@
 import React from 'react';
+import PageHeader from '../PageHeader/PageHeader';
 
 // This is one of our simplest components
 // It doesn't have local state,
@@ -7,8 +8,13 @@ import React from 'react';
 
 function AboutPage() {
   return (
-    <div className="container">
+    <div className="container-fluid">
+      <PageHeader 
+        title = "Hikes"
+        description = "INTO THE WILD"
+      />
       <div className="row">
+
         <p className="lead mb-5">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur a lorem a risus aliquam rhoncus id vel nulla. Fusce dictum dolor eros, a aliquam erat congue dapibus. Fusce eu nibh elementum, volutpat sem in, maximus mi. Aenean sit amet dolor pharetra, cursus neque nec, mattis ligula. Fusce in arcu at lacus sodales elementum. Phasellus volutpat lorem mi, in laoreet dui pretium sit amet. Curabitur a urna et nunc malesuada posuere. Sed in erat in nunc tincidunt ullamcorper ut imperdiet enim. Sed nunc justo, consectetur sed vulputate a, venenatis ac justo. Ut mi elit, dictum eget odio et, congue lacinia sem. Praesent laoreet ex scelerisque lacus egestas, ornare dictum leo fermentum. In laoreet augue at tincidunt tempus. Nam quis molestie mauris.
 
