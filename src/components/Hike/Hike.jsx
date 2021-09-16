@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Hike.css';
 import { withAuthenticator } from '@aws-amplify/ui-react'
-import { Map, TileLayer, Polyline, Marker, withLeaflet, Popup} from 'react-leaflet'
+import { Map, TileLayer, Polyline, Marker, withLeaflet, Popup, Tooltip} from 'react-leaflet'
 import { useParams } from 'react-router-dom';
 import { getHikes } from '../../graphql/queries'
 import { useHistory } from 'react-router-dom';
@@ -80,11 +80,6 @@ function Hike() {
   if (isLoading && weatherIsLoading) {
     return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
-
-  console.log('polylines', polylines);
-  // polylines.forEach(data => {
-  //   console.log(data);
-  // });
 
   let options = {
     position: 'topleft',            // Position to show the control. Values: 'topright', 'topleft', 'bottomright', 'bottomleft'
@@ -185,13 +180,8 @@ function Hike() {
             positions={polylines}
           />
 
-          {polylines?.map(data => {
-          // let array = [Number(data.lat), Number(data.lng)]
-          console.log('polly array', data);
+          {polylines?.map((data, index) => {
           return (
-            // <>
-            // </>
-            // <Marker 
           <Marker 
             position={data}
           >
@@ -221,6 +211,9 @@ function Hike() {
 
               <span>Lat: <i>{data}</i></span>
             </Popup>
+            <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                       <span>Hike Marker: {index + 1}</span>
+                </Tooltip>
           </Marker>
           );
           })}
@@ -231,7 +224,6 @@ function Hike() {
           <div className="container">
             <h1>{hikeDetail.name}</h1>
             <p className="lead mb-5">{hikeDetail.description}</p>
-            <h5>Hike Detail</h5>
             <ul className="nav-pills-custom nav">
               <li className="nav-item"><a href="#" className="active nav-link">Difficulty: <span className="difficulty-num">{hikeDetail.difficulty}</span></a></li>
               <li className="nav-item"><a href="#" className="nav-link">city: {hikeDetail.city}</a></li>
