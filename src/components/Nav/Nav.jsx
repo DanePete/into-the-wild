@@ -6,10 +6,12 @@ import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter } from 'react-
 import 'react-pro-sidebar/dist/css/styles.css';
 import img from '../../assets/logo.png'
 import { AmplifySignOut } from '@aws-amplify/ui-react';
+import { Hub, Logger } from 'aws-amplify';
 
 function Nav() {
   const history = useHistory();
   const [user, setUser] = useState({}) 
+  const [loggedIn, setLoggedIn] = useState(false);
   async function checkUser() {
     try {
       const data = await Auth.currentUserPoolUser()
@@ -21,14 +23,60 @@ function Nav() {
     }
   }
 
+  // const user = useSelector((store) => store.user);
+  console.log('user', user);
+  async function checkAuthState() {
+    try {
+      let user = await Auth.currentAuthenticatedUser();
+      user = user; 
+      console.log('user', user.signInUserSession.accessToken.payload["cognito:groups"]);
+      setLoggedIn(true)
+    } catch (err) {
+      // props.history.push(route)
+    }
+    
+  }
+
+  const logger = new Logger('Logger', 'INFO');
+const listener = (data) => {
+
+  switch (data.payload.event) {
+    case 'signIn':
+      logger.info('user signed in');
+      setLoggedIn(true)
+      break;
+    case 'signUp':
+      logger.info('user signed up');
+      break;
+    case 'signOut':
+      logger.info('user signed out');
+      setLoggedIn(false)
+      break;
+    case 'signIn_failure':
+      logger.info('user sign in failed');
+      break;
+    case 'configured':
+      logger.info('the Auth module is configured');
+      break;
+    default:
+      logger.error('Something went wrong, look at data object', data);
+  }
+}
+
+Hub.listen('auth', listener);
+
   useEffect(() => {
-    checkUser()
+    // checkUser()
+    checkAuthState()
   }, [])
 
   async function handleLogout() {
-    await Auth.signOut();
-    window.location.reload();
-    history.push("/home");
+    await Auth.signOut().then(
+      setLoggedIn(false)
+    );
+    
+    // window.location.reload();
+    // history.push("/home");
   }
 
   return (
@@ -63,7 +111,11 @@ function Nav() {
       {/* </SubMenu> */}
     </Menu>
     <SidebarFooter>
-      <AmplifySignOut />
+    {loggedIn ? 
+        <AmplifySignOut />
+        :
+        <div>LOG IN</div>
+    }
     </SidebarFooter>
   </ProSidebar>
     

@@ -30,7 +30,7 @@ function Admin() {
     try {
       let user = await Auth.currentAuthenticatedUser();
       user = user.attributes; 
-      console.log('user', user);
+      // console.log('user', user);
     } catch (err) {
       // props.history.push(route)
     }

@@ -11,6 +11,18 @@ function LandingPage() {
 
   return (
     <div className="landing-container">
+      <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
       <div className="h-100 container">
         <div className="d-flex h-100 text-white overlay-content align-items-center">
           <div className="w-100">
