@@ -19,6 +19,7 @@ function Nav() {
       const userInfo = { username: data.username, ...data.attributes, }
       console.log('user info', userInfo);
       setUser(userInfo)
+      setLoggedIn(true)
     } catch (err) { 
       console.log('error: ', err) 
       history.push('/home');
@@ -34,6 +35,10 @@ function Nav() {
     } catch (err) {
       // props.history.push(route)
     }
+  }
+
+  function logIn() {
+    history.push('/hikes');
   }
 
   const logger = new Logger('Logger', 'INFO');
@@ -65,7 +70,7 @@ function Nav() {
 Hub.listen('auth', listener);
 
   useEffect(() => {
-    // checkUser()
+    checkUser()
     checkAuthState()
   }, [])
 
@@ -73,9 +78,6 @@ Hub.listen('auth', listener);
     await Auth.signOut().then(
       setLoggedIn(false)
     );
-    
-    // window.location.reload();
-    // history.push("/home");
   }
 
   return (
@@ -134,7 +136,7 @@ Hub.listen('auth', listener);
     {loggedIn ? 
         <AmplifySignOut />
         :
-        <div>LOG IN</div>
+        <button className="btn btn-primary login-btn" onClick={logIn}>Log In</button>
     }
     </SidebarFooter>
   </ProSidebar>

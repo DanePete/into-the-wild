@@ -62,3 +62,16 @@
   bottom: 0;
   width: 100%;
 }
+
+.login-btn {
+  width: 100%;
+  min-width: 153px;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 1rem;
+  background: #3f51b500;
+}

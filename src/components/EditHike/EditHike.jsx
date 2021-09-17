@@ -22,8 +22,6 @@ import { EditControl } from "react-leaflet-draw"
 const initialState = { id: '', name: '', city: '', state: '', description: '', mapdata: '', image: ''}
 
 export default function EditHike(latLng) {
-
-
   const [hike, setHike] = useState()
   const [isLoading, setLoading] = useState(true);
   const { id } = useParams();
@@ -33,7 +31,7 @@ export default function EditHike(latLng) {
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
   const [hikes, setHikes] = useState([])
-
+  const [userLocation, setUserLocation] = useState();
 
 
   const MeasureControl = withLeaflet(MeasureControlDefault);
@@ -62,7 +60,7 @@ export default function EditHike(latLng) {
       setHike(JSON.parse(hikeCall.data.getHikes.mapdata).latlngs)
       setFormState({ id: hikeCall.data.getHikes.id, name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: hikeCall.data.getHikes.mapdata, image: ''})
       setLoading(false);
-    } catch (err) { console.log('error fetching todos') }
+    } catch (err) { console.log('error fetching hikes') }
   }
 
   function convertObjectsToArrays(hikeData) {
@@ -70,7 +68,6 @@ export default function EditHike(latLng) {
     for (let index = 0; index < hikeData.length; index++) {
       if(previousCoords) {
         let distances = distance(previousCoords, [hikeData[index].lat, hikeData[index].lng], 'M')
-        console.log('distance', distances);
         convertObjectArray.push([hikeData[index].lat, hikeData[index].lng, distances])
       } else {
         previousCoords = [hikeData[index].lat, hikeData[index].lng]
@@ -106,6 +103,7 @@ export default function EditHike(latLng) {
   
     getPosition()
     .then((position) => {
+      setUserLocation([position.coords.latitude, position.coords.longitude])
       setLoading(false)
     })
     .catch((err) => {
@@ -113,7 +111,6 @@ export default function EditHike(latLng) {
     });
   
     const _onEdited = (e) => {
-      console.log(e);
       const {
         layers: { _layers },
       } = e;
@@ -138,7 +135,6 @@ export default function EditHike(latLng) {
     };
   
     const _onDeleted = (e) => {
-      console.log(e);
       const {
         layers: { _layers },
       } = e;
@@ -174,59 +170,30 @@ export default function EditHike(latLng) {
     fetchHike();
   }, []);
 
-  console.log('formstate', formState.mapdata);
-
-    /**
-   * Location Marker
-   * Allows users to add pins to the map
-   */
-     function LocationMarker() {
-      const [position, setPosition] = useState(null)
-      // const map = useMapEvents({
-        
-      //   click(e) {
-      //     const { lat, lng } = e.latlng;
-      //     L.marker([lat, lng], { icon }).addTo(map)
-      //     setItems([...items, {lat,lng}])
-      //     setInput('mapdata', JSON.stringify(items))
-      //   }
-      // })
-    
-      return position === null ? null : (
-        <Marker position={position}>
-          <Popup>You are here</Popup>
-        </Marker>
-      )
-    }
-
   /**
    * Add HIKE
    */
    async function addHike() {
     try {
       if (formState.name && formState.description && formState.mapdata)  {
-      const todo = { ...formState }
-      console.log('todos', todo);
-      setHikes([...hikes, todo])
-      await API.graphql(graphqlOperation(updateHikes, {input: todo}))
+      const hike = { ...formState }
+      setHikes([...hikes, hike])
+      await API.graphql(graphqlOperation(updateHikes, {input: hike}))
       await Storage.put(file.name, file, {
         level: 'public',
         type: 'image/png'
         }, {
         progressCallBack(progress) {
-          console.log(progress);
           console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
         },
-      })
-      
-      // Insert predictions code here later'
-      setFormState(initialState)
+        }
+      )
       history.push("/hikes");
     } else {
       alert('yo dog you suck')
     }
     } catch (err) {
-      console.log('error creating todo:', err)
+      console.log('error updating hike:', err)
     }
   }
 
@@ -344,11 +311,19 @@ export default function EditHike(latLng) {
           <option value="WY">Wyoming</option>
         </select>				
 
-        {/* <input
-          type="file"
+        <select 
           className="form-control"
-          onChange={event => setInput('image', event.target.files[0].name, setFile(event.target.files[0]))}
-        /> */}
+          onChange={event => setInput('difficulty', event.target.value)}
+          value={formState.difficulty}
+          placeholder="difficulty"
+        >
+          <option value="" selected disabled hidden>Difficulty</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>		        
       </div>
 
       <div className="hike-images">
@@ -361,7 +336,7 @@ export default function EditHike(latLng) {
       
       <Map
         bounds={polylines}
-        center={hike[0]}
+        center={userLocation}
         zoom={13}
         style={{ height: "100vh" }}
       >
@@ -369,12 +344,17 @@ export default function EditHike(latLng) {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
-        <Polyline 
+        <TileLayer
+          url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+        />
+        <TileLayer
+          url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+        />
+        {/* <Polyline 
             positions={polylines}
-          />
+          /> */}
 
-        {polylines?.map((data, index) => {
+        {/* {polylines?.map((data, index) => {
             console.log('data', data);
             return (
             <Marker 
@@ -406,7 +386,7 @@ export default function EditHike(latLng) {
                 </Tooltip>
           </Marker>
           );
-          })}
+          })} */}
 
         <MeasureControl {...measureOptions}/>
         <FeatureGroup>
