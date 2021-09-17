@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import './Nav.css';
 import { Auth } from 'aws-amplify';
-import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import img from '../../assets/logo.png'
 import { AmplifySignOut } from '@aws-amplify/ui-react';
@@ -110,6 +110,27 @@ Hub.listen('auth', listener);
         
       {/* </SubMenu> */}
     </Menu>
+    <hr />
+    {loggedIn ? 
+      <SidebarContent>
+        <h5>Admin Links</h5>
+        <Menu iconShape="square">
+            <MenuItem>
+              Admin Hikes
+              <Link to="/admin">
+            </Link>
+            </MenuItem>
+            <MenuItem>
+              Admin Users
+              <Link to="/admin">
+            </Link>
+            </MenuItem>
+          {/* </SubMenu> */}
+        </Menu>
+      </SidebarContent>
+      :
+      <SidebarContent></SidebarContent>
+    }
     <SidebarFooter>
     {loggedIn ? 
         <AmplifySignOut />

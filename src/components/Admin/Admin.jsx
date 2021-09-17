@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import * as mutations from '../../graphql/mutations'
 import moment from 'moment';
+import PageHeader from '../PageHeader/PageHeader';
 
 /**
  * Hike Component
@@ -60,10 +61,12 @@ function Admin() {
 
     
   return (
-    <div className="hike-list container card">
-
+    <div className="hike-list container-fluid card">
+         <PageHeader 
+            title = "Admin Hikes"
+            description = "Admin the things"
+         />
       <div className="card-header">
-        <h5 className="card-title">Admin Hikes</h5>
       </div>
       <div className="card-body">
         <table className="table table-stripped">
