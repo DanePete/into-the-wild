@@ -11,7 +11,7 @@ function LandingPage() {
 
   return (
     <div className="landing-container">
-      <ul class="circles">
+      <ul className="circles">
         <li></li>
         <li></li>
         <li></li>

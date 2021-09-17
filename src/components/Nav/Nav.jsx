@@ -12,6 +12,7 @@ function Nav() {
   const history = useHistory();
   const [user, setUser] = useState({}) 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isBigShot, setBigShot] = useState(false);
   async function checkUser() {
     try {
       const data = await Auth.currentUserPoolUser()
@@ -28,6 +29,7 @@ function Nav() {
       const user = await Auth.currentAuthenticatedUser();
       user = user; 
       console.log('user', user.signInUserSession.accessToken.payload["cognito:groups"]);
+      
       setLoggedIn(true)
     } catch (err) {
       // props.history.push(route)
