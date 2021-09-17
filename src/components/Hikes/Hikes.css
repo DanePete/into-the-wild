@@ -35,3 +35,15 @@ amplify-s3-image {
 .text-sm {
   font-size: .875rem;
 }
+
+.hover-animate {
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+
+.hover-animate:focus, .hover-animate:hover {
+  -webkit-transform: translate3d(0,-2px,5px);
+  -moz-transform: translate3d(0,-2px,5px);
+  transform: translate3d(0,-2px,5px);
+}

@@ -49,11 +49,11 @@ function Hikes() {
             description = "INTO THE WILD"
          />
       <div className="container hike-list">
-      <section className="hero py-6 py-lg-7 text-white dark-overlay">
+      {/* <section className="hero py-6 py-lg-7 text-white dark-overlay">
         <div className="display: block; overflow: hidden; position: absolute; inset: 0px; box-sizing: border-box; margin: 0px;">
           
         </div>
-      </section>
+      </section> */}
       <div className="hike-btn">
         <button
             type="button"
@@ -67,12 +67,12 @@ function Hikes() {
       </div>
       
       {/* TODO MAP */}
-      <div className="col-lg-9">
-        <div className="row">
+      <div className="container">
+        <div className="mb-5 row">
           {
             hikes.map((todo, index) => (
-              <div className="mb-5 hover-animate col-sm-6 col-xl-4">
-                <div key={todo.id ? todo.id : index} className="card hike-card h-100 border-0 shadow card">
+              <div className="mb-4 hover-animate col-sm-6 col-lg-4">
+                <div key={todo.id ? todo.id : index} className="border-0 h-100 shadow card">
                   <AmplifyS3Image imgKey={todo.image} 
                     onClick={() => hikeClick(todo.id)}
                   />
