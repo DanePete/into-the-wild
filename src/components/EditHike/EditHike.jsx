@@ -5,29 +5,30 @@ import {
   Map,
   TileLayer,
   Popup,
-  useMapEvents,
-  Marker
+  Tooltip,
+  Polyline,
+  Marker,
+  FeatureGroup,
+  withLeaflet
 } from "react-leaflet";
+import MeasureControlDefault from 'react-leaflet-measure';
 import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import icon from "../../constants";
 import { createHikes, updateHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
 import { getHikes } from '../../graphql/queries'
 import { useParams } from 'react-router-dom';
+import { EditControl } from "react-leaflet-draw"
 const initialState = { id: '', name: '', city: '', state: '', description: '', mapdata: '', image: ''}
 
-
 export default function EditHike(latLng) {
-
 
 
   const [hike, setHike] = useState()
   const [isLoading, setLoading] = useState(true);
   const { id } = useParams();
-
-
+  const [mapLayers, setMapLayers] = useState([]);
+  const [userLocation, setUserLocation] = useState();
 
 
   const [file, setFile] = useState();
@@ -38,6 +39,23 @@ export default function EditHike(latLng) {
   const user = useSelector((store) => store.user);
   const [hikes, setHikes] = useState([])
 
+
+
+  const MeasureControl = withLeaflet(MeasureControlDefault);
+  const [polylines, setPolylines] = useState();
+  let convertObjectArray = [];
+
+
+  const measureOptions = {
+    position: 'topright',
+    primaryLengthUnit: 'meters',
+    secondaryLengthUnit: 'M',
+    primaryAreaUnit: 'sqmeters',
+    secondaryAreaUnit: 'acres',
+    activeColor: '#db4a29',
+    completedColor: '#9b2d14'
+  };
+
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
@@ -45,10 +63,117 @@ export default function EditHike(latLng) {
   async function fetchHike() {
     try {
       const hikeCall = await API.graphql(graphqlOperation(getHikes, { id: id }))
-      setHike(JSON.parse(hikeCall.data.getHikes.mapdata))
+      convertObjectsToArrays(JSON.parse(hikeCall.data.getHikes.mapdata).latlngs);
+      setHike(JSON.parse(hikeCall.data.getHikes.mapdata).latlngs)
       setFormState({ id: hikeCall.data.getHikes.id, name: hikeCall.data.getHikes.name, city: hikeCall.data.getHikes.city, state: 'MN', description: hikeCall.data.getHikes.description, mapdata: hikeCall.data.getHikes.mapdata, image: ''})
       setLoading(false);
     } catch (err) { console.log('error fetching todos') }
+  }
+
+  function convertObjectsToArrays(hikeData) {
+    let previousCoords;
+    for (let index = 0; index < hikeData.length; index++) {
+      if(previousCoords) {
+        let distances = distance(previousCoords, [hikeData[index].lat, hikeData[index].lng], 'M')
+        console.log('distance', distances);
+        convertObjectArray.push([hikeData[index].lat, hikeData[index].lng, distances])
+      } else {
+        previousCoords = [hikeData[index].lat, hikeData[index].lng]
+      }
+      
+      setPolylines(convertObjectArray);
+    }
+  }
+
+    // LEAFTLET CONTROL CALLBACKS
+    const _onCreated = (e) => {
+      console.log('e',e);
+  
+      const { layerType, layer } = e;
+      if (layerType === "polyline") {
+        
+        const { _leaflet_id } = layer;
+  
+        setMapLayers((layers) => [
+          ...layers,
+          { id: _leaflet_id, latlngs: layer.getLatLngs() },
+        ]);
+  
+        setInput('mapdata', JSON.stringify({ id: _leaflet_id, latlngs: layer.getLatLngs() }));
+      }
+    };
+  
+    var getPosition = function (options) {
+      return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      });
+    }
+  
+    getPosition()
+    .then((position) => {
+      setUserLocation([position.coords.latitude, position.coords.longitude])
+      setLoading(false)
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+  
+    const _onEdited = (e) => {
+      console.log(e);
+      const {
+        layers: { _layers },
+      } = e;
+  
+      Object.values(_layers).map(({ _leaflet_id, editing }) => {
+        setMapLayers((layers) =>
+          layers.map((l) =>
+            l.id === _leaflet_id
+              ? { ...l, latlngs: { ...editing.latlngs[0] } }
+              : l
+          )
+        );
+        setInput('mapdata', JSON.stringify(
+          (layers) =>
+          layers.map((l) =>
+            l.id === _leaflet_id
+              ? { ...l, latlngs: { ...editing.latlngs[0] } }
+              : l
+          )
+        ))
+      });
+    };
+  
+    const _onDeleted = (e) => {
+      console.log(e);
+      const {
+        layers: { _layers },
+      } = e;
+  
+      Object.values(_layers).map(({ _leaflet_id }) => {
+        setMapLayers((layers) => layers.filter((l) => l.id !== _leaflet_id));
+      });
+    };
+
+  function distance(array1, array2, unit) {
+    if((array1[0] == array2[0]) && (array1[1] == array2[1])) {
+      return 0;
+    }
+    else {
+      var radlat1 = Math.PI * array1[0]/180;
+      var radlat2 = Math.PI * array2[0]/180;
+      var theta = array1[1]-array2[1];
+      var radtheta = Math.PI * theta/180;
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180/Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit=="K") { dist = dist * 1.609344 }
+      if (unit=="N") { dist = dist * 0.8684 }
+      return dist.toFixed(2);
+    }
   }
 
   useEffect(() => {
@@ -242,7 +367,8 @@ export default function EditHike(latLng) {
       </div>
       
       <Map
-        center={latLng.latLng}
+        bounds={polylines}
+        center={hike[0]}
         zoom={13}
         style={{ height: "100vh" }}
       >
@@ -250,7 +376,54 @@ export default function EditHike(latLng) {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <LocationMarker />
+
+        <Polyline 
+            positions={polylines}
+          />
+
+        {polylines?.map((data, index) => {
+            console.log('data', data);
+            return (
+            <Marker 
+              position={data}
+            >
+            <Popup className="map-popup-forged">
+              <Map center={data}  zoom={16} scrollWheelZoom={false}>
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                />
+                <TileLayer
+                  url={`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+                />
+                <TileLayer
+                  url={`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=11ec4ec7b29812e54c0f261032fbce7b`}
+                />
+                <Marker 
+                  position={data}
+                ></Marker>
+              </Map>
+
+              <span>Lat: <i>{data}</i></span>
+            </Popup>
+            <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                       <span>Hike Marker: {index + 1}</span>
+                       <br />
+                       <span>Distance From Previous Point: { data[2]} Miles</span>
+                </Tooltip>
+          </Marker>
+          );
+          })}
+
+        <MeasureControl {...measureOptions}/>
+        <FeatureGroup>
+          <EditControl
+            position='topright'
+            onEdited={_onEdited}
+            onCreated={_onCreated}
+            onDeleted={_onDeleted}
+          />
+        </FeatureGroup>
       </Map>
       <hr></hr>
       <button className="btn btn-primary" onClick={addHike}>Save Edits</button>

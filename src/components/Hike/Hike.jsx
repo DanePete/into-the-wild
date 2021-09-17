@@ -219,13 +219,6 @@ function Hike() {
               position={data}
             >
             <Popup className="map-popup-forged">
-              {/* <section className="py-5">
-              <div className="container">
-              <h1>Weather near this location</h1>
-              <h5>Forecast for the next 5 days</h5>
-              {weather && <WeatherList weathers={weather.list} />}
-              </div>
-              </section> */}
               <Map center={data}  zoom={16} scrollWheelZoom={false}>
                 <TileLayer
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
