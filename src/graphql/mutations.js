@@ -64,6 +64,9 @@ export const createHikes = /* GraphQL */ `
       difficulty
       like
       mapdata
+      comments {
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -85,6 +88,9 @@ export const updateHikes = /* GraphQL */ `
       difficulty
       like
       mapdata
+      comments {
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -106,8 +112,98 @@ export const deleteHikes = /* GraphQL */ `
       difficulty
       like
       mapdata
+      comments {
+        nextToken
+      }
       createdAt
       updatedAt
+      owner
+    }
+  }
+`;
+export const createComment = /* GraphQL */ `
+  mutation CreateComment(
+    $input: CreateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    createComment(input: $input, condition: $condition) {
+      id
+      hikeId
+      content
+      createdAt
+      updatedAt
+      hike {
+        id
+        name
+        description
+        city
+        state
+        image
+        difficulty
+        like
+        mapdata
+        createdAt
+        updatedAt
+        owner
+      }
+      owner
+    }
+  }
+`;
+export const updateComment = /* GraphQL */ `
+  mutation UpdateComment(
+    $input: UpdateCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    updateComment(input: $input, condition: $condition) {
+      id
+      hikeId
+      content
+      createdAt
+      updatedAt
+      hike {
+        id
+        name
+        description
+        city
+        state
+        image
+        difficulty
+        like
+        mapdata
+        createdAt
+        updatedAt
+        owner
+      }
+      owner
+    }
+  }
+`;
+export const deleteComment = /* GraphQL */ `
+  mutation DeleteComment(
+    $input: DeleteCommentInput!
+    $condition: ModelCommentConditionInput
+  ) {
+    deleteComment(input: $input, condition: $condition) {
+      id
+      hikeId
+      content
+      createdAt
+      updatedAt
+      hike {
+        id
+        name
+        description
+        city
+        state
+        image
+        difficulty
+        like
+        mapdata
+        createdAt
+        updatedAt
+        owner
+      }
       owner
     }
   }

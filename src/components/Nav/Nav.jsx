@@ -16,29 +16,26 @@ function Nav() {
     try {
       const data = await Auth.currentUserPoolUser()
       const userInfo = { username: data.username, ...data.attributes, }
+      console.log('user info', userInfo);
       setUser(userInfo)
     } catch (err) { 
       console.log('error: ', err) 
       history.push('/home');
     }
   }
-
-  // const user = useSelector((store) => store.user);
-  console.log('user', user);
   async function checkAuthState() {
     try {
-      let user = await Auth.currentAuthenticatedUser();
+      const user = await Auth.currentAuthenticatedUser();
       user = user; 
       console.log('user', user.signInUserSession.accessToken.payload["cognito:groups"]);
       setLoggedIn(true)
     } catch (err) {
       // props.history.push(route)
     }
-    
   }
 
   const logger = new Logger('Logger', 'INFO');
-const listener = (data) => {
+  const listener = (data) => {
 
   switch (data.payload.event) {
     case 'signIn':

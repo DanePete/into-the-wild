@@ -14,8 +14,8 @@ import {
 import MeasureControlDefault from 'react-leaflet-measure';
 import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
-import { createHikes, updateHikes } from '../../graphql/mutations';
-import { API, graphqlOperation, Storage, progressCallBack } from 'aws-amplify'
+import { updateHikes } from '../../graphql/mutations';
+import { API, graphqlOperation, Storage } from 'aws-amplify'
 import { getHikes } from '../../graphql/queries'
 import { useParams } from 'react-router-dom';
 import { EditControl } from "react-leaflet-draw"
@@ -28,12 +28,7 @@ export default function EditHike(latLng) {
   const [isLoading, setLoading] = useState(true);
   const { id } = useParams();
   const [mapLayers, setMapLayers] = useState([]);
-  const [userLocation, setUserLocation] = useState();
-
-
   const [file, setFile] = useState();
-  const [uploaded, setUploaded] = useState(false);
-  const [items, setItems] = useState([]);
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
   const user = useSelector((store) => store.user);
@@ -111,7 +106,6 @@ export default function EditHike(latLng) {
   
     getPosition()
     .then((position) => {
-      setUserLocation([position.coords.latitude, position.coords.longitude])
       setLoading(false)
     })
     .catch((err) => {
@@ -227,7 +221,6 @@ export default function EditHike(latLng) {
       
       // Insert predictions code here later'
       setFormState(initialState)
-      setUploaded(true)
       history.push("/hikes");
     } else {
       alert('yo dog you suck')

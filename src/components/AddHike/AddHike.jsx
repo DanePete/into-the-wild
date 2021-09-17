@@ -2,10 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import './AddHike.css'
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
-import { useSelector } from 'react-redux';
 import "leaflet/dist/leaflet.css";
-import L, { Edit, featureGroup } from "leaflet";
-import icon from "../../constants";
 import { createHikes } from '../../graphql/mutations';
 import { API, graphqlOperation, Storage } from 'aws-amplify'
 import {Editor, EditorState} from 'draft-js';
@@ -16,13 +13,9 @@ const initialState = { name: '', city: '', state: '', description: '', mapdata: 
 
 export default function AddHike(latLng) {
   const [file, setFile] = useState();
-  const [uploaded, setUploaded] = useState(false);
-  const [items, setItems] = useState([]);
   const [mapLayers, setMapLayers] = useState([]);
   const history = useHistory();
   const [formState, setFormState] = useState(initialState)
-  const user = useSelector((store) => store.user);
-  const [hikes, setHikes] = useState([])
   const [userLocation, setUserLocation] = useState();
   const [isLoading, setLoading] = useState(true);
 
@@ -47,12 +40,10 @@ export default function AddHike(latLng) {
           type: 'image/png'
           }, {
           progressCallBack(progress) {
-            console.log(progress);
             console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
           },
         }
       )
-      setUploaded(true)
       history.push("/hikes");
     } else {
       alert('yo dog you suck')
@@ -61,18 +52,6 @@ export default function AddHike(latLng) {
       console.log('error creating todo:', err)
     }
   }
-
-  // async function addPhoto() {
-  //   await Storage.put(file.name, file, {
-  //     level: 'public',
-  //     type: 'image/png'
-  //     }, {
-  //     progressCallBack(progress) {
-  //       console.log(progress);
-  //       console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-  //     },
-  //   })
-  // }
 
   // LEAFTLET CONTROL CALLBACKS
   const _onCreated = (e) => {
@@ -288,8 +267,6 @@ export default function AddHike(latLng) {
           />
         </FeatureGroup>
       </Map>
-
-      <pre className="text-left">{JSON.stringify( mapLayers , 0, 2 )} </pre>
 
       <hr></hr>
       <button className="btn btn-primary" onClick={addHike}>Create Hike</button>

@@ -29,6 +29,7 @@ function Hike() {
   const [isLoading, setLoading] = useState(true);
   const [weatherIsLoading, setWeatherIsLoading] = useState(true);
   const [weather, setWeeather] = useState();
+  const [totalDistance, setTotalDistance] = useState();
 
   const [polylines, setPolylines] = useState();
 
@@ -74,6 +75,7 @@ function Hike() {
       if(previousCoords) {
         let distances = distance(previousCoords, [hikeData[index].lat, hikeData[index].lng], 'M')
         console.log('distance', distances);
+        setTotalDistance(distances)
         convertObjectArray.push([hikeData[index].lat, hikeData[index].lng, distances])
       } else {
         previousCoords = [hikeData[index].lat, hikeData[index].lng]
@@ -253,19 +255,36 @@ function Hike() {
             <h1>{hikeDetail.name}</h1>
             <p className="lead mb-5">{hikeDetail.description}</p>
             <ul className="nav-pills-custom nav">
-              <li className="nav-item"><a href="#" className="active nav-link">Difficulty: <span className="difficulty-num">{hikeDetail.difficulty}</span></a></li>
-              <li className="nav-item"><a href="#" className="nav-link">city: {hikeDetail.city}</a></li>
+              <li className="nav-item"><a href="#" className="btn btn-primary">Difficulty: <span className="difficulty-num">{hikeDetail.difficulty}</span></a></li>
+              <li className="nav-item"><a href="#" className="nav-link">Distance: {totalDistance} Miles</a></li>
+              <li className="nav-item"><a href="#" className="nav-link">Nearest city: {hikeDetail.city}</a></li>
               <li className="nav-item"><a href="#" className="nav-link">State: {hikeDetail.state}</a></li>
+              <button type="button" className=" btn btn-primary nav-item" data-toggle="modal" data-target="#exampleModal">
+                View Weather
+              </button>
             </ul>
           </div>
         </section>
-        <section className="py-5">
-          <div className="container">
-            <h1>Weather near this location</h1>
-            <h5>Forecast for the next 5 days</h5>
-            {weather && <WeatherList weathers={weather.list} />}
+
+    <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-body">
+            <section className="py-5">
+              <div className="container">
+                <h1>Weather near this location</h1>
+                <h5>Forecast for the next 5 days</h5>
+                {weather && <WeatherList weathers={weather.list} />}
+              </div>
+            </section>
           </div>
-        </section>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+            {/* <button type="button" className="btn btn-primary">Save changes</button> */}
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { withAuthenticator } from '@aws-amplify/ui-react'
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
+import { API, graphqlOperation } from 'aws-amplify'
 import * as mutations from '../../graphql/mutations'
 import moment from 'moment';
 import PageHeader from '../PageHeader/PageHeader';

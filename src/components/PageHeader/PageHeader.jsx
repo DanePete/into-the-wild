@@ -8,6 +8,18 @@ import './PageHeader.css';
 function PageHeader({title, description}) {
   return (
     <section class="position-relative py-6 page-header">
+        <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
       <div class="container">
         <div class="row page-header-row">
           <div class="col-lg-6">

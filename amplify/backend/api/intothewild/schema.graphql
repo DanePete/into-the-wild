@@ -18,8 +18,6 @@ type User @model
   photoUrl: String
 }
 
-
-
 type Hikes @model 
 @auth(
     rules: [
@@ -43,4 +41,33 @@ type Hikes @model
   difficulty: Int
   like: Boolean
   mapdata: AWSJSON
+  comments: [Comment]
+    @connection(
+      keyName: "hikeComments"
+      fields: ["id"]
+    )
+}
+
+type Comment
+  @model
+  @key(
+    name: "hikeComments",
+    fields: ["hikeId", "content"]
+  )
+  @auth(
+    rules: [
+      { allow: owner },
+      {
+        allow: groups
+        groups: ["Moderator"]
+        operations: [read, update, delete]
+      },
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  hikeId: ID!
+  content: String!
+  hike: Hikes @connection(fields: ["hikeId"])
+
 }
