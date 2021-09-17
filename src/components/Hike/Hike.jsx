@@ -69,9 +69,39 @@ function Hike() {
   }
 
   function convertObjectsToArrays(hikeData) {
+    let previousCoords;
     for (let index = 0; index < hikeData.length; index++) {
-      convertObjectArray.push([hikeData[index].lat, hikeData[index].lng])
+      if(previousCoords) {
+        let distances = distance(previousCoords, [hikeData[index].lat, hikeData[index].lng], 'M')
+        console.log('distance', distances);
+        convertObjectArray.push([hikeData[index].lat, hikeData[index].lng, distances])
+      } else {
+        previousCoords = [hikeData[index].lat, hikeData[index].lng]
+      }
+      
       setPolylines(convertObjectArray);
+    }
+  }
+
+  function distance(array1, array2, unit) {
+    if((array1[0] == array2[0]) && (array1[1] == array2[1])) {
+      return 0;
+    }
+    else {
+      var radlat1 = Math.PI * array1[0]/180;
+      var radlat2 = Math.PI * array2[0]/180;
+      var theta = array1[1]-array2[1];
+      var radtheta = Math.PI * theta/180;
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180/Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit=="K") { dist = dist * 1.609344 }
+      if (unit=="N") { dist = dist * 0.8684 }
+      return dist.toFixed(2);
     }
   }
 
@@ -183,10 +213,11 @@ function Hike() {
           />
 
           {polylines?.map((data, index) => {
-          return (
-          <Marker 
-            position={data}
-          >
+            console.log('data', data);
+            return (
+            <Marker 
+              position={data}
+            >
             <Popup className="map-popup-forged">
               {/* <section className="py-5">
               <div className="container">
@@ -215,6 +246,8 @@ function Hike() {
             </Popup>
             <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
                        <span>Hike Marker: {index + 1}</span>
+                       <br />
+                       <span>Distance From Previous Point: { data[2]} Miles</span>
                 </Tooltip>
           </Marker>
           );
