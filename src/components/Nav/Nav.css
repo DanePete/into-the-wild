@@ -13,6 +13,10 @@
   text-decoration: none;
 }
 
+.pro-sidebar-header {
+  margin: 15px;
+}
+
 .nav-title {
   font-size: 24px;
   font-weight: 700;

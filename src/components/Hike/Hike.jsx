@@ -11,6 +11,8 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L, { map } from 'leaflet';
 import MeasureControlDefault from 'react-leaflet-measure';
+import FullscreenControl from 'react-leaflet-fullscreen';
+import 'react-leaflet-fullscreen/dist/styles.css'
 
 import 'leaflet/dist/leaflet.css';
 const position = [51.505, -0.09]
@@ -160,11 +162,11 @@ function Hike() {
 
   return (
     <div className="hike-map-container">
-
-        <button onClick={history.goBack}>
+        {/* <button onClick={history.goBack}>
           Back
-        </button>
+        </button> */}
         <Map bounds={polylines} center={hike[0]} zoom={16} scrollWheelZoom={false}>
+          <FullscreenControl position="topright" />
           <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

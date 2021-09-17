@@ -1,5 +1,6 @@
 import React from 'react';
 import './Profile.css';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 
 // This is one of our simplest components
 // It doesn't have local state,
@@ -32,4 +33,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default withAuthenticator(Profile);
