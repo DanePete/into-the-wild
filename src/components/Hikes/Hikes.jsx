@@ -55,6 +55,20 @@ function Hikes() {
         </div>
       </section> */}
       <div className="hike-btn">
+      <select 
+          className="form-control"
+          // onChange={event => setInput('difficulty', event.target.value)}
+          // value={formState.difficulty}
+          placeholder="difficulty"
+        >
+          <option value="" selected disabled hidden>Filter Difficulty</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>		   
+
         <button
             type="button"
             className="btn btn-primary btn_asLink"

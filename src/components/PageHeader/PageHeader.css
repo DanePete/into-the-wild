@@ -8,3 +8,7 @@
 .page-header-row {
   padding: 50px;
 }
+
+.page-header-btn {
+  display: block;
+}

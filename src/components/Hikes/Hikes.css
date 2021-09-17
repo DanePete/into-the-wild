@@ -13,6 +13,18 @@ amplify-s3-image {
   width: 18rem;
 }
 
+.hike-btn {
+  display: flex;
+}
+
+.hike-btn .form-control {
+  flex: 2;
+}
+
+.hike-btn .btn {
+  flex: 1;
+}
+
 .card {
   position: relative;
   display: -webkit-flex;

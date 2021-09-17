@@ -27,7 +27,7 @@ function PageHeader({title, description}) {
               <strong className="text-uppercase text-secondary d-inline-block mb-2 text-sm">Featured</strong>
               <h2 className="mb-3">{title}</h2>
               <p className="text-muted">{description}</p>
-              <a className="p-0 btn btn-link" href="/blog/escape-city-today">More Info... <i className="fa fa-long-arrow-alt-right"></i></a>
+              <a className="p-0 btn btn-primary page-header-btn" href="/blog/escape-city-today">More Info... <i className="fa fa-long-arrow-alt-right"></i></a>
             </div>
           </div>
         </div>
