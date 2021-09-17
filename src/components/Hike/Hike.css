@@ -13,6 +13,11 @@
   display: flex;
 }
 
+.hike-btn {
+  margin: 15px;
+  text-align: right;
+}
+
 .amp-image {
   flex: 1;
 }

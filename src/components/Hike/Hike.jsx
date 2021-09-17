@@ -275,6 +275,13 @@ function Hike() {
           </div>
         </section>
 
+        <section className="py-5">
+          <div className="container">
+            <h1>Comments:</h1>
+            <h5>Coming Soon....</h5>
+          </div>
+        </section>
+
     <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog" role="document">
         <div className="modal-content">
