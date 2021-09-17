@@ -242,7 +242,7 @@ function Hike() {
             <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
                        <span>Hike Marker: {index + 1}</span>
                        <br />
-                       <span>Distance From Previous Point: { data[2]} Miles</span>
+                       <span>Distance From Previous Marker: { data[2]} Miles</span>
                 </Tooltip>
           </Marker>
           );
