@@ -26,7 +26,6 @@ import Map from './components/Map/Map'
 import EditHike from './components/EditHike/EditHike'
 import YourAccount from './components/YourAccount/YourAccount'
 import Profile from './components/Profile/Profile';
-import GeoSearchExample from './components/geosearch';
 import EditProfile from './components/EditProfile/EditProfile';
 
 

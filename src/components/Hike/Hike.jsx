@@ -12,7 +12,10 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L, { map } from 'leaflet';
 import MeasureControlDefault from 'react-leaflet-measure';
 import FullscreenControl from 'react-leaflet-fullscreen';
+import { AmplifyS3Image } from '@aws-amplify/ui-react';
 import 'react-leaflet-fullscreen/dist/styles.css'
+
+import img from '../../assets/output-onlinegiftools.gif'
 
 import 'leaflet/dist/leaflet.css';
 const position = [51.505, -0.09]
@@ -238,11 +241,11 @@ function Hike() {
               </Map>
 
               <span>Lat: <i>{data}</i></span>
+              <br />
+              <strong>Distance From Previous Marker: { data[2]} Miles</strong>
             </Popup>
             <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
-                       <span>Hike Marker: {index + 1}</span>
-                       <br />
-                       <span>Distance From Previous Marker: { data[2]} Miles</span>
+                       <span>{index + 1}</span>
                 </Tooltip>
           </Marker>
           );
@@ -254,15 +257,21 @@ function Hike() {
           <div className="container">
             <h1>{hikeDetail.name}</h1>
             <p className="lead mb-5">{hikeDetail.description}</p>
-            <ul className="nav-pills-custom nav">
-              <li className="nav-item"><a href="#" className="btn btn-primary">Difficulty: <span className="difficulty-num">{hikeDetail.difficulty}</span></a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Distance: {totalDistance} Miles</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Nearest city: {hikeDetail.city}</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">State: {hikeDetail.state}</a></li>
-              <button type="button" className=" btn btn-primary nav-item" data-toggle="modal" data-target="#exampleModal">
-                View Weather
-              </button>
-            </ul>
+            <div Class="hikeimagepills">
+              <div className="amp-image">
+                <AmplifyS3Image imgKey={hikeDetail.image} />
+              </div>
+              <ul className="nav-pills-custom nav">
+                <li className="nav-item"><a href="#" className="btn btn-primary">Difficulty: <span className="difficulty-num">{hikeDetail.difficulty}</span></a></li>
+                <li className="nav-item"><a href="#" className="nav-link">Distance: {totalDistance} Miles</a></li>
+                <img className="hike-dude" src={img} />
+                <li className="nav-item"><a href="#" className="nav-link">Nearest city: {hikeDetail.city}</a></li>
+                <li className="nav-item"><a href="#" className="nav-link">State: {hikeDetail.state}</a></li>
+                <button type="button" className=" btn btn-primary nav-item" data-toggle="modal" data-target="#exampleModal">
+                  View Weather
+                </button>         
+              </ul>  
+            </div>
           </div>
         </section>
 

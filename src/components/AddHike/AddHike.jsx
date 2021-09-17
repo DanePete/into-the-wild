@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom';
 import './AddHike.css'
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
@@ -11,7 +11,7 @@ import { EditControl } from "react-leaflet-draw"
 
 const initialState = { name: '', city: '', state: '', description: '', mapdata: '', difficulty: 0, image: ''}
 
-export default function AddHike(latLng) {
+export default function AddHike() {
   const [file, setFile] = useState();
   const [mapLayers, setMapLayers] = useState([]);
   const history = useHistory();

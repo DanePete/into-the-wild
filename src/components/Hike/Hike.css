@@ -9,9 +9,25 @@
   height: 600px !important;
 }
 
+.hikeimagepills {
+  display: flex;
+}
+
+.amp-image {
+  flex: 1;
+}
+
+.nav-pills-custom {
+  flex: 4;
+}
+
 .map-popup-forged {
   width: 600px;
   height: 300px;
+}
+
+.hike-dude {
+  width: 50px;
 }
 
 .leaflet-popup-content .leaflet-container {
@@ -141,3 +157,4 @@
     transform: rotate(360deg);
   }
 }
+
